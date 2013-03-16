@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  description: MyString
+  announcement: MyString
+  image_url: MyString
+  image_small_url: MyString
+  permission_type: MyString
+  deleted: false
+  platform: 
+
+two:
+  name: MyString
+  description: MyString
+  announcement: MyString
+  image_url: MyString
+  image_small_url: MyString
+  permission_type: MyString
+  deleted: false
+  platform: 

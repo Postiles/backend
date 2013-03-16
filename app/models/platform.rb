@@ -1,6 +1,8 @@
 class Platform < ActiveRecord::Base
   belongs_to :creator, :class_name => :user
 
+  has_many :topics
+
   has_many :platform_administratorships, :foreign_key => :platform_id
   has_many :platform_memberships, :foreign_key => :platform_id
 

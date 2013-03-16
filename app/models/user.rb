@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
 
   # created
   has_many :created_platforms, :class_name => :Platform, :foreign_key => :creator_id
+  has_many :created_topics, :class_name => :Topic, :foreign_key => :creator_id
+  has_many :created_boards, :class_name => :Board, :foreign_key => :creator_id
 
   # administrated
   has_many :platform_administratorships, :foreign_key => :administrator_id

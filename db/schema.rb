@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130316084049) do
+ActiveRecord::Schema.define(:version => 20130316090158) do
+
+  create_table "boards", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "image_url"
+    t.string   "image_small_url"
+    t.boolean  "deleted"
+    t.integer  "topic_id"
+    t.integer  "creator_id",      :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "boards", ["topic_id"], :name => "index_boards_on_topic_id"
 
   create_table "friendships", :force => true do |t|
     t.integer  "pos_user_id",     :null => false
@@ -68,6 +82,22 @@ ActiveRecord::Schema.define(:version => 20130316084049) do
   end
 
   add_index "profiles", ["user_id"], :name => "index_profiles_on_user_id"
+
+  create_table "topics", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "announcement"
+    t.string   "image_url"
+    t.string   "image_small_url"
+    t.string   "permission_type"
+    t.boolean  "deleted"
+    t.integer  "platform_id"
+    t.integer  "creator_id",      :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "topics", ["platform_id"], :name => "index_topics_on_platform_id"
 
   create_table "user_data", :force => true do |t|
     t.string   "email_confirmation_token"
