@@ -9,5 +9,11 @@ class User < ActiveRecord::Base
   # created
   has_many :created_platforms, :class_name => :Platform, :foreign_key => :creator_id
 
+  # administrated
+  has_many :platform_administratorships, :foreign_key => :administrator_id
+
+  # member
+  has_many :platform_memberships, :foreign_key => :member_id
+
   attr_accessible :email, :password, :session_key, :username
 end
