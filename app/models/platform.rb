@@ -6,5 +6,7 @@ class Platform < ActiveRecord::Base
   has_many :platform_administratorships, :foreign_key => :platform_id
   has_many :platform_memberships, :foreign_key => :platform_id
 
+  has_many :interests, :as => :interestable
+
   attr_accessible :announcement, :closed, :description, :image_small_url, :image_url, :name, :permission_type, :verified, :creator_id
 end

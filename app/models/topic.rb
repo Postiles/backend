@@ -7,5 +7,7 @@ class Topic < ActiveRecord::Base
   has_many :topic_administratorships, :foreign_key => :topic_id
   has_many :topic_memberships, :foreign_key => :topic_id
 
+  has_many :interests, :as => :interestable
+
   attr_accessible :announcement, :deleted, :description, :image_small_url, :image_url, :name, :permission_type, :platform_id, :creator_id
 end

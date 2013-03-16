@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130316101849) do
+ActiveRecord::Schema.define(:version => 20130316122947) do
 
   create_table "board_administratorships", :force => true do |t|
     t.integer  "board_id",         :null => false
@@ -63,6 +63,18 @@ ActiveRecord::Schema.define(:version => 20130316101849) do
   end
 
   add_index "inline_comments", ["post_id"], :name => "index_inline_comments_on_post_id"
+
+  create_table "interests", :force => true do |t|
+    t.boolean  "liked"
+    t.boolean  "followed"
+    t.integer  "user_id"
+    t.integer  "interestable_id"
+    t.string   "interestable_type"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "interests", ["user_id"], :name => "index_interests_on_user_id"
 
   create_table "notifications", :force => true do |t|
     t.string   "notification_type"

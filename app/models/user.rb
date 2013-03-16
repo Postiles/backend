@@ -28,5 +28,7 @@ class User < ActiveRecord::Base
   # notifications
   has_many :notifications
 
+  has_many :interests
+
   attr_accessible :email, :password, :session_key, :username
 end

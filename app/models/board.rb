@@ -8,5 +8,7 @@ class Board < ActiveRecord::Base
 
   has_many :board_administratorships, :foreign_key => :board_id
 
+  has_many :interests, :as => :interestable
+
   attr_accessible :deleted, :description, :image_small_url, :image_url, :name, :topic_id, :creator_id
 end
