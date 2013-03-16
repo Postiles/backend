@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  channel_str: MyString
+  top_bound: 1
+  bottom_bound: 1
+  left_bound: 1
+  right_bound: 1
+
+two:
+  channel_str: MyString
+  top_bound: 1
+  bottom_bound: 1
+  left_bound: 1
+  right_bound: 1

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  notification_type: MyString
+  target_id: 1
+  read: false
+
+two:
+  notification_type: MyString
+  target_id: 1
+  read: false

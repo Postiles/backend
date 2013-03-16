@@ -22,5 +22,11 @@ class User < ActiveRecord::Base
   has_many :platform_memberships, :foreign_key => :member_id
   has_many :topic_memberships, :foreign_key => :member_id
 
+  # channels
+  has_many :channels
+
+  # notifications
+  has_many :notifications
+
   attr_accessible :email, :password, :session_key, :username
 end

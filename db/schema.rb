@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130316094823) do
+ActiveRecord::Schema.define(:version => 20130316101849) do
 
   create_table "board_administratorships", :force => true do |t|
     t.integer  "board_id",         :null => false
@@ -34,6 +34,18 @@ ActiveRecord::Schema.define(:version => 20130316094823) do
 
   add_index "boards", ["topic_id"], :name => "index_boards_on_topic_id"
 
+  create_table "channels", :force => true do |t|
+    t.string   "channel_str"
+    t.integer  "top_bound"
+    t.integer  "bottom_bound"
+    t.integer  "left_bound"
+    t.integer  "right_bound"
+    t.integer  "user_id"
+    t.integer  "board_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "friendships", :force => true do |t|
     t.integer  "pos_user_id",     :null => false
     t.integer  "neg_user_id",     :null => false
@@ -51,6 +63,16 @@ ActiveRecord::Schema.define(:version => 20130316094823) do
   end
 
   add_index "inline_comments", ["post_id"], :name => "index_inline_comments_on_post_id"
+
+  create_table "notifications", :force => true do |t|
+    t.string   "notification_type"
+    t.integer  "target_id"
+    t.boolean  "read"
+    t.integer  "from_user_id"
+    t.integer  "user_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
 
   create_table "platform_administratorships", :force => true do |t|
     t.integer  "platform_id",      :null => false
