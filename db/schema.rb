@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130316092740) do
+ActiveRecord::Schema.define(:version => 20130316094823) do
 
   create_table "board_administratorships", :force => true do |t|
     t.integer  "board_id",         :null => false
@@ -42,6 +42,16 @@ ActiveRecord::Schema.define(:version => 20130316092740) do
     t.datetime "updated_at",      :null => false
   end
 
+  create_table "inline_comments", :force => true do |t|
+    t.string   "content"
+    t.integer  "post_id"
+    t.integer  "creator_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "inline_comments", ["post_id"], :name => "index_inline_comments_on_post_id"
+
   create_table "platform_administratorships", :force => true do |t|
     t.integer  "platform_id",      :null => false
     t.integer  "administrator_id", :null => false
@@ -69,6 +79,21 @@ ActiveRecord::Schema.define(:version => 20130316092740) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
+
+  create_table "posts", :force => true do |t|
+    t.string   "title"
+    t.text     "content"
+    t.integer  "span_x"
+    t.integer  "span_y"
+    t.integer  "pos_x"
+    t.integer  "pos_y"
+    t.integer  "board_id"
+    t.integer  "creator_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "posts", ["board_id"], :name => "index_posts_on_board_id"
 
   create_table "profiles", :force => true do |t|
     t.string   "image_url"

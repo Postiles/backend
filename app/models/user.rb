@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   has_many :created_platforms, :class_name => :Platform, :foreign_key => :creator_id
   has_many :created_topics, :class_name => :Topic, :foreign_key => :creator_id
   has_many :created_boards, :class_name => :Board, :foreign_key => :creator_id
+  has_many :created_posts, :class_name => :Post, :foreign_key => :creator_id
+  has_many :created_inline_comments, :class_name => :InlineComment, :foreign_key => :creator_id
 
   # administrated
   has_many :platform_administratorships, :foreign_key => :administrator_id
