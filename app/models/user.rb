@@ -6,5 +6,8 @@ class User < ActiveRecord::Base
   has_many :pos_friendships, :class_name => :Friendship, :foreign_key => :pos_user_id
   has_many :neg_friendships, :class_name => :Friendship, :foreign_key => :neg_user_id
 
+  # created
+  has_many :created_platforms, :class_name => :Platform, :foreign_key => :creator_id
+
   attr_accessible :email, :password, :session_key, :username
 end
