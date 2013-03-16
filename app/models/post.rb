@@ -6,5 +6,5 @@ class Post < ActiveRecord::Base
 
   has_many :interests, :as => :interestable
 
-  attr_accessible :content, :pos_x, :pos_y, :span_x, :span_y, :title, :board_id, :creator_id
+  attr_accessible :content, :pos_x, :pos_y, :span_x, :span_y, :title, :type, :image_url, :video_link, :board_id, :creator_id
 end

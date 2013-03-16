@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130316122947) do
+ActiveRecord::Schema.define(:version => 20130316131422) do
 
   create_table "board_administratorships", :force => true do |t|
     t.integer  "board_id",         :null => false
@@ -125,6 +125,9 @@ ActiveRecord::Schema.define(:version => 20130316122947) do
     t.integer  "creator_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "type"
+    t.string   "image_url"
+    t.string   "video_link"
   end
 
   add_index "posts", ["board_id"], :name => "index_posts_on_board_id"
