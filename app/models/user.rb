@@ -13,9 +13,12 @@ class User < ActiveRecord::Base
 
   # administrated
   has_many :platform_administratorships, :foreign_key => :administrator_id
+  has_many :topic_administratorships, :foreign_key => :administrator_id
+  has_many :board_administratorships, :foreign_key => :administrator_id
 
   # member
   has_many :platform_memberships, :foreign_key => :member_id
+  has_many :topic_memberships, :foreign_key => :member_id
 
   attr_accessible :email, :password, :session_key, :username
 end

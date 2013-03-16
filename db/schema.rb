@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130316090158) do
+ActiveRecord::Schema.define(:version => 20130316092740) do
+
+  create_table "board_administratorships", :force => true do |t|
+    t.integer  "board_id",         :null => false
+    t.integer  "administrator_id", :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
 
   create_table "boards", :force => true do |t|
     t.string   "name"
@@ -82,6 +89,20 @@ ActiveRecord::Schema.define(:version => 20130316090158) do
   end
 
   add_index "profiles", ["user_id"], :name => "index_profiles_on_user_id"
+
+  create_table "topic_administratorships", :force => true do |t|
+    t.integer  "topic_id",         :null => false
+    t.integer  "administrator_id", :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  create_table "topic_memberships", :force => true do |t|
+    t.integer  "topic_id",   :null => false
+    t.integer  "member_id",  :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "topics", :force => true do |t|
     t.string   "name"
