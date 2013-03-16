@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  pos_user_id: 1
+  neg_user_id: 1
+  friendship_type: MyString
+
+two:
+  pos_user_id: 1
+  neg_user_id: 1
+  friendship_type: MyString
