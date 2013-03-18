@@ -2,6 +2,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   private
+    def publish(channel, status, data)
+      Thread.new do
+        PrivatePub.publish_to '/faye/' + channel, { :status => status, :data => data }
+      end
+    end
+
     def render_ok(message = 'ok')
       render :json => { :status => 'ok', :message => message }
     end
@@ -51,6 +57,13 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def post_width_extras(post)
+      return { 
+          :post => post, 
+          :creator => find_user(post.creator_id),
+      }
+    end
+
     module GENERAL_ERRORS
       USER_NOT_LOGGED_IN = 'USER_NOT_LOGGED_IN'
       SERVER_ERROR = 'SERVER_ERROR'
@@ -71,23 +84,23 @@ class ApplicationController < ActionController::Base
     end
     
     module PUSH_TYPE
-      START = 0
-      DELETE = 1
-      TERMINATE = 2
-      FINISH = 3
-      INLINE_COMMNET = 4
-      LINK_TO = 5
+      START = 'start'
+      DELETE = 'delete'
+      TERMINATE = 'terminate'
+      FINISH = 'finish'
+      INLINE_COMMNET = 'inline comment'
+      LINK_TO = 'link to'
     end
 
     module DATA_TYPE
-      POST = 0
-      LINK = 1
-      COMMENT = 2
+      POST = 'post'
+      LINK = 'link'
+      COMMENT = 'comment'
     end
 
     module NOTIFICATION_TYPE
-      INLINE_COMMNET = 0
-      INLINE_COMMNET_REPLY = 1
+      INLINE_COMMNET = 'inline comment'
+      INLINE_COMMNET_REPLY = 'comment reply'
     end
 
 end
