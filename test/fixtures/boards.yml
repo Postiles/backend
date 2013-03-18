@@ -1,17 +1,4 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
 one:
-  name: MyString
-  description: MyString
-  image_url: MyString
-  image_small_url: MyString
-  deleted: false
-  topic: 
-
-two:
-  name: MyString
-  description: MyString
-  image_url: MyString
-  image_small_url: MyString
-  deleted: false
-  topic: 
+  id: 1
+  name: '1st board'
+  creator_id: 1

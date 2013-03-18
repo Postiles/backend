@@ -1,13 +1,6 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
 one:
-  username: MyString
-  password: MyString
-  email: MyString
-  session_key: MyString
-
-two:
-  username: MyString
-  password: MyString
-  email: MyString
-  session_key: MyString
+  id: 1
+  username: 'dekai'
+  password: 'asdfghjkl'
+  email: 'dekai@gmail.com'
+  session_key: '123'
