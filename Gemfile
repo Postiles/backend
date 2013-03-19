@@ -32,6 +32,8 @@ gem 'thin'
 
 gem 'hirb'
 
+gem 'activeadmin'
+
 group :development do
     gem 'rails_admin'
     gem 'better_errors'

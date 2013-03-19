@@ -1,4 +1,26 @@
 class ApplicationController < ActionController::Base
+  before_filter :cors_preflight_check
+  after_filter :cors_set_access_control_headers
+
+  # For all responses in this controller, return the CORS access control headers.
+  def cors_set_access_control_headers
+    # headers['Access-Control-Allow-Origin'] = 'http://' + request.host
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Headers'] = "Overwrite, Destination, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control, Content-Length, Accept, Accept-Charset, Accept-Encoding, Referer";
+  end
+  
+  # If this is a preflight OPTIONS request, then short-circuit the
+  # request, return only the necessary headers and return an empty
+  # text/plain
+  def cors_preflight_check
+    if request.method == :options
+      headers['Access-Control-Allow-Origin'] = "*"
+      headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
+      headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-Prototype-Version'
+      render :text=>'', :content_type => 'text/plain'
+    end
+  end
+
   protect_from_forgery
 
   private
@@ -57,11 +79,24 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    def post_width_extras(post)
-      return { 
-          :post => post, 
-          :creator => find_user(post.creator_id),
-      }
+    def board_with_extras(board)
+      return :board => board
+    end
+
+    def post_with_extras(post)
+      return :post => post, :creator => find_user(post.creator_id)
+    end
+
+    def comment_width_extras(comment)
+      return :comment => comment
+    end
+
+    def user_with_extras(user)
+      return :user => user
+    end
+
+    def bluelog(msg)
+      logger.debug "\033[0;34m#{msg}\033[0;30m"
     end
 
     module GENERAL_ERRORS
@@ -81,6 +116,9 @@ class ApplicationController < ActionController::Base
       POST_POSITION_CLASH = 'POST_POSITION_CLASH'
       MEDIA_ILLEGAL = 'MEDIA_ILLEGAL'
       LINK_ILLEGAL = 'LINK_ILLEGAL'
+      MULTIPLE_LIKE = 'multiple like'
+      PASSWORD_MISMATCH = 'LOGIN_FAILURE_PASSWORD_MISMATCH'
+      ILLEGAL_PASSWORD = 'ILLEGAL_PSWD'
     end
     
     module PUSH_TYPE

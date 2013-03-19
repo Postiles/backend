@@ -12,9 +12,6 @@ class Post < ActiveRecord::Base
   validates_presence_of :creator_id
   validates_presence_of :board_id
 
-  validates_numericality_of :pos_x, :greater_than => 0
-  validates_numericality_of :pos_y, :greater_than => 0
-
   validates_numericality_of :span_x, :greater_than => 0
   validates_numericality_of :span_y, :greater_than => 0
 end
