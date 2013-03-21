@@ -3,8 +3,8 @@ class User < ActiveRecord::Base
   has_one :user_data, :dependent => :destroy
 
   # friendships
-  has_many :pos_friendships, :class_name => :Friendship, :foreign_key => :pos_user_id, :dependent => :destory
-  has_many :neg_friendships, :class_name => :Friendship, :foreign_key => :neg_user_id, :dependent => :destory
+  has_many :pos_friendships, :class_name => :Friendship, :foreign_key => :pos_user_id, :dependent => :destroy
+  has_many :neg_friendships, :class_name => :Friendship, :foreign_key => :neg_user_id, :dependent => :destroy
 
   # created
   has_many :created_platforms, :class_name => :Platform, :foreign_key => :creator_id

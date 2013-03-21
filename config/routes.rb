@@ -7,6 +7,7 @@ Backend::Application.routes.draw do
   post 'post/submit_change'
   post 'post/terminate_change'
   post 'post/get_post'
+  post 'post/delete'
 
   post 'board/get_board'
   post 'board/enter_board'

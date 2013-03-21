@@ -14,4 +14,10 @@ class InlineCommentController < ApplicationController
       render_error GENERAL_ERRORS::SERVER_ERROR
     end
   end
+
+  private
+
+    def process_comment(comment)
+    end
+
 end

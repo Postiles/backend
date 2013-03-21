@@ -30,6 +30,12 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def notify(notification_data)
+      ntf = Notification.create notification_data
+      publish '/notifications/' + notification_data[:user_id], 
+          PUSH_TYPE::NOTIFICATION, { :notification => ntf }
+    end
+
     def render_ok(message = 'ok')
       render :json => { :status => 'ok', :message => message }
     end
@@ -128,6 +134,7 @@ class ApplicationController < ActionController::Base
       FINISH = 'finish'
       INLINE_COMMNET = 'inline comment'
       LINK_TO = 'link to'
+      NOTIFICATION = 'notification'
     end
 
     module DATA_TYPE
