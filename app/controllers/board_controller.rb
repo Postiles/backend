@@ -19,12 +19,15 @@ class BoardController < ApplicationController
     posts_to_render = [ ]
 
     board.posts.all.each do |p|
+=begin
       if p.pos_x >= params[:left].to_i and 
           p.pos_x + p.span_x <= params[:right].to_i and
           p.pos_y >= params[:top].to_i and
           p.pos_y + p.span_y <= params[:bottom].to_i
         posts_to_render << post_with_extras(p)
       end
+=end
+      posts_to_render << post_with_extras(p)
     end
 
     render_ok :posts => posts_to_render

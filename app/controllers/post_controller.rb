@@ -33,7 +33,7 @@ class PostController < ApplicationController
     board = find_board(post.board_id) or return
 
     # TODO: publish
-    publish board.id, PUSH_TYPE::START_EDIT, post_with_extras(post)
+    publish board.id, PUSH_TYPE::START, post_with_extras(post)
     
     render_ok
   end
@@ -47,7 +47,7 @@ class PostController < ApplicationController
     post.content = params[:content]
 
     if post.save
-      publish board.id, PUSH_TYPE::SUBMIT_CHANGE, post_with_extras(post)
+      publish board.id, PUSH_TYPE::FINISH, post_with_extras(post)
       render_ok
     else
       render_error GENERAL_ERRORS::SERVER_ERROR
