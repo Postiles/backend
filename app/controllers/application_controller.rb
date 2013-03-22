@@ -80,7 +80,16 @@ class ApplicationController < ActionController::Base
       begin
         return Post.find(post_id)
       rescue # cannot find post
-        render_error GENERAL_ERRORS::POST_NOT_EXIST
+        render_error GENERAL_ERRORS::POST_NOT_FOUND
+        return nil
+      end
+    end
+
+    def find_profile(profile_id)
+      begin
+        return Profile.find(profile_id)
+      rescue # cannot find post
+        render_error GENERAL_ERRORS::POST_NOT_FOUND
         return nil
       end
     end
@@ -98,7 +107,7 @@ class ApplicationController < ActionController::Base
     end
 
     def user_with_extras(user)
-      return :user => user
+      return :user => user, :profile => find_profile(user.profile_id)
     end
 
     def bluelog(msg)
@@ -118,6 +127,7 @@ class ApplicationController < ActionController::Base
       POST_NOT_FOUND = 'POST_NOT_FOUND'
       BOARD_NOT_FOUND = 'BOARD_NOT_FOUND'
       USER_NOT_FOUND = 'USER_NOT_FOUND'
+      PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND'
       LIKE_NOT_FOUND = 'LIKE_NOT_FOUND'
       POST_POSITION_CLASH = 'POST_POSITION_CLASH'
       MEDIA_ILLEGAL = 'MEDIA_ILLEGAL'

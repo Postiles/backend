@@ -1,7 +1,4 @@
 class BoardController < ApplicationController
-  def new
-  end
-
   def enter_board
     user = auth(params) or return
     board = find_board(params[:board_id]) or return
