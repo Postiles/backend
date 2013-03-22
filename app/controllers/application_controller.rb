@@ -95,15 +95,16 @@ class ApplicationController < ActionController::Base
     end
 
     def board_with_extras(board)
-      return :board => board
+      creator = find_user(board.creator_id) or return
+      return :board => board, :creator => creator, :profile => creator.profile
     end
 
     def post_with_extras(post)
       return :post => post, :creator => find_user(post.creator_id)
     end
 
-    def comment_width_extras(comment)
-      return :comment => comment
+    def comment_with_extras(comment)
+      return :inline_comment => comment, :creator => find_user(comment.creator_id)
     end
 
     def user_with_extras(user)

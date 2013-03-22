@@ -8,11 +8,22 @@ class InlineCommentController < ApplicationController
         :post_id => post.id, :creator_id => user.id
 
     if comment.save
-      publish board.id, PUSH_TYPE::INLINE_COMMNET, comment_width_extras(comment)
-      render_ok
+      publish board.id, PUSH_TYPE::INLINE_COMMNET, comment_with_extras(comment)
+      render_ok comment_with_extras(comment)
     else
       render_error GENERAL_ERRORS::SERVER_ERROR
     end
+  end
+
+  def get_inline_comments
+    user = auth(params) or return
+    post = find_post(params[:post_id]) or return
+
+    comments = post.inline_comments.map do |ic|
+      comment_with_extras(ic)
+    end
+
+    render_ok comments
   end
 
   private

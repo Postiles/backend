@@ -9,6 +9,9 @@ Backend::Application.routes.draw do
   post 'post/get_post'
   post 'post/delete'
 
+  post 'inline_comment/new'
+  post 'inline_comment/get_inline_comments'
+
   post 'board/get_board'
   post 'board/enter_board'
   post 'board/move_to'
