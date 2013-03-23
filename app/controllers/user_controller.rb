@@ -1,8 +1,10 @@
 class UserController < ApplicationController
   def new
+    # NOTE: after creating a user, must create a profile
   end
 
   def activate
+    # NOTE: after creating a user, must create a profile
   end
 
   def login
@@ -39,6 +41,18 @@ class UserController < ApplicationController
     target_user = find_user(params[:target_user_id]) or return
 
     render_ok :user => user, :profile => user.profile
+  end
+
+  def search_user
+    search = Sunspot.search(User) do
+      fulltext params[:query]
+    end
+
+    users = search.results.map do |r|
+      { :user => r, :profile => r.profile }
+    end
+
+    render_ok :users => users
   end
 
   private

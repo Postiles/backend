@@ -31,4 +31,15 @@ class User < ActiveRecord::Base
   has_many :interests, :dependent => :destroy
 
   attr_accessible :email, :password, :session_key, :username
+
+  searchable do
+    text :username, :boost => 5
+    text :email, :boost => 3
+    text :first_name do
+      profile.first_name
+    end
+    text :last_name do
+      profile.last_name
+    end
+  end
 end
