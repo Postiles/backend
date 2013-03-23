@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :password, :session_key, :username
 
+=begin
   searchable do
     text :username, :boost => 5
     text :email, :boost => 3
@@ -42,4 +43,5 @@ class User < ActiveRecord::Base
       profile.last_name
     end
   end
+=end
 end
