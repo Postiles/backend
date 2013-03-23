@@ -11,6 +11,11 @@ class InlineCommentController < ApplicationController
       comment_with_extras = { :inline_comment => comment, :creator => comment.creator }
 
       publish board.id, PUSH_TYPE::INLINE_COMMNET, comment_with_extras
+
+      # handling notifications
+      notify :notification_type => 'reply in post', :read => false, :target_id => post.id,
+          :from_user_id => user.id, :user_id => post.creator_id
+
       render_ok comment_with_extras
     else
       render_error GENERAL_ERRORS::SERVER_ERROR

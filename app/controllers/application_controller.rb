@@ -46,9 +46,11 @@ class ApplicationController < ActionController::Base
     end
 
     def notify(notification_data)
-      ntf = Notification.create notification_data
-      publish '/notifications/' + notification_data[:user_id], 
-          PUSH_TYPE::NOTIFICATION, { :notification => ntf }
+      ntf = Notification.new notification_data
+      if ntf.save
+        publish '/notifications/' + notification_data[:user_id], 
+            PUSH_TYPE::NOTIFICATION, { :notification => ntf }
+      end
     end
 
     def render_ok(message = 'ok')
