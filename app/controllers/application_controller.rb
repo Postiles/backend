@@ -82,6 +82,15 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def find_platform(platform_id)
+      begin
+        return Platform.find(platform_id)
+      rescue
+        render_error CONTROLLER_ERRORS::PLATFORM_NOT_FOUND
+        return nil
+      end
+    end
+
     def find_topic(topic_id)
       begin
         return Topic.find(topic_id)

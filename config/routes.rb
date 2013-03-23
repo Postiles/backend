@@ -4,6 +4,18 @@ Backend::Application.routes.draw do
 
   post 'application/upload_image'
 
+  post 'platform/new'
+  post 'platform/get_platform'
+
+  post 'topic/new'
+  post 'topic/get_topic'
+  post 'topic/get_topics_in_platform'
+
+  post 'board/get_board'
+  post 'board/enter_board'
+  post 'board/move_to'
+  post 'board/get_boards_in_topic'
+
   post 'post/new'
   post 'post/start_edit'
   post 'post/submit_change'
@@ -14,11 +26,6 @@ Backend::Application.routes.draw do
 
   post 'inline_comment/new'
   post 'inline_comment/get_inline_comments'
-
-  post 'board/get_board'
-  post 'board/enter_board'
-  post 'board/move_to'
-  post 'board/get_boards_in_topic'
 
   post 'user/new'
   post 'user/activate'

@@ -1,4 +1,20 @@
 class BoardController < ApplicationController
+  def new
+    user = auth(params) or return
+    topic = find_topic(params[topic_id]) or return
+
+    board = Board.new :name => params[:name],
+        :description => params[:description],
+        :topic_id => topic.id,
+        :creator_id => user.id
+
+    if board.save
+      render_ok :board => board
+    else
+      render_error GENERAL_ERRORS::SERVER_ERROR
+    end
+  end
+
   def enter_board
     user = auth(params) or return
     board = find_board(params[:board_id]) or return
@@ -29,6 +45,7 @@ class BoardController < ApplicationController
   end
 
   def get_boards_in_topic
+    user = auth(params) or return
     topic = find_topic(params[:topic_id]) or return
 
     boards = topic.boards.map do |b|
