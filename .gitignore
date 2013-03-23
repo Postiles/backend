@@ -21,3 +21,6 @@ sqlite
 .DS_Store
 
 config/unicorn.rb
+
+*.png
+*.jpg
