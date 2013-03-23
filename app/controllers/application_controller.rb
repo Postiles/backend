@@ -41,7 +41,9 @@ class ApplicationController < ActionController::Base
   private
     def publish(channel, status, data)
       Thread.new do
-        PrivatePub.publish_to '/faye/' + channel, { :status => status, :data => data }
+        message = { :channel => '/faye/' + channel.to_s, :data => { :status => status, :msg => data } }
+        uri = URI.parse("http://localhost:9292/faye")
+        Net::HTTP.post_form(uri, :message => message.to_json)
       end
     end
 
@@ -49,7 +51,7 @@ class ApplicationController < ActionController::Base
       unless notification_data[:user_id] == notification_data[:from_user_id] # should not yourself notifications
         ntf = Notification.new notification_data
         if ntf.save
-          publish '/notifications/' + notification_data[:user_id].to_s, 
+          publish 'notification/' + notification_data[:user_id].to_s, 
               PUSH_TYPE::NOTIFICATION, { :notification => ntf }
         end
       end
@@ -186,7 +188,6 @@ class ApplicationController < ActionController::Base
       TERMINATE = 'terminate'
       FINISH = 'finish'
       INLINE_COMMNET = 'inline comment'
-      LINK_TO = 'link to'
       NOTIFICATION = 'notification'
     end
 

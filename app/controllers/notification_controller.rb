@@ -31,5 +31,7 @@ class NotificationController < ApplicationController
     user.notifications.each do |n|
       n.update_attributes :read => true
     end
+
+    render_ok
   end
 end

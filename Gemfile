@@ -25,8 +25,6 @@ gem 'unicorn'
 
 gem 'faye'
 
-gem 'private_pub'
-
 gem 'thin'
 
 gem 'hirb'

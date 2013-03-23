@@ -20,7 +20,7 @@ class PostController < ApplicationController
     end
 
     if post.save
-      render_ok :post => post
+      render_ok post_with_extras(post)
     else
       post.delete
       render_error GENERAL_ERRORS::SERVER_ERROR
