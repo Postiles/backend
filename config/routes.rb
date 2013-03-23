@@ -32,11 +32,15 @@ Backend::Application.routes.draw do
   post 'user/login'
   post 'user/logout'
   post 'user/get_user'
-  post 'user/search_user'
 
   post 'profile/get_profile'
 
   post 'notification/get_notifications'
   post 'notification/dismiss'
   post 'notification/dismiss_all'
+
+  post 'search/search_topic'
+  post 'search/search_board'
+  post 'search/search_post'
+  post 'search/search_user'
 end

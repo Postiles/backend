@@ -43,18 +43,6 @@ class UserController < ApplicationController
     render_ok :user => user, :profile => user.profile
   end
 
-  def search_user
-    search = Sunspot.search(User) do
-      fulltext params[:query]
-    end
-
-    users = search.results.map do |r|
-      { :user => r, :profile => r.profile }
-    end
-
-    render_ok :users => users
-  end
-
   private
     def encrypt(password)
       return Digest::SHA1.hexdigest(password.reverse + 'mobai10000ci') # reverse, salt and SHA1
