@@ -8,6 +8,21 @@ class ApplicationController < ActionController::Base
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Headers'] = "Overwrite, Destination, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control, Content-Length, Accept, Accept-Charset, Accept-Encoding, Referer";
   end
+
+  def upload_image
+    # user = auth(params) or return # do not auth for now
+
+    image = params[:image]
+    filename = image.original_filename
+
+    path = "#{Rails.root}/public/uploads/#{filename}"
+
+    File.open(path, 'wb') do |f|
+      f.write(image.read)
+    end
+
+    render_ok :filename => filename
+  end
   
   # If this is a preflight OPTIONS request, then short-circuit the
   # request, return only the necessary headers and return an empty
@@ -63,6 +78,15 @@ class ApplicationController < ActionController::Base
         return User.find(user_id)
       rescue
         render_error CONTROLLER_ERRORS::USER_NOT_FOUND
+        return nil
+      end
+    end
+
+    def find_topic(topic_id)
+      begin
+        return Topic.find(topic_id)
+      rescue
+        render_error CONTROLLER_ERRORS::TOPIC_NOT_FOUND
         return nil
       end
     end

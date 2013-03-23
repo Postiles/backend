@@ -27,4 +27,14 @@ class BoardController < ApplicationController
 
     render_ok :posts => posts
   end
+
+  def get_boards_in_topic
+    topic = find_topic(params[:topic_id]) or return
+
+    boards = topic.boards.map do |b|
+      { :board => b, :creator => b.creator }
+    end
+
+    render_ok :boards => boards
+  end
 end
