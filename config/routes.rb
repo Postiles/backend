@@ -34,6 +34,7 @@ Backend::Application.routes.draw do
   post 'user/get_user'
 
   post 'profile/get_profile'
+  post 'profile/update_profile_item'
 
   post 'notification/get_notifications'
   post 'notification/dismiss'
