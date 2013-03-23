@@ -46,10 +46,12 @@ class ApplicationController < ActionController::Base
     end
 
     def notify(notification_data)
-      ntf = Notification.new notification_data
-      if ntf.save
-        publish '/notifications/' + notification_data[:user_id], 
-            PUSH_TYPE::NOTIFICATION, { :notification => ntf }
+      unless notification_data[:user_id] == notification_data[:from_user_id] # should not yourself notifications
+        ntf = Notification.new notification_data
+        if ntf.save
+          publish '/notifications/' + notification_data[:user_id].to_s, 
+              PUSH_TYPE::NOTIFICATION, { :notification => ntf }
+        end
       end
     end
 
