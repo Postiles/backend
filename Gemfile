@@ -34,6 +34,9 @@ gem 'hirb'
 
 gem 'activeadmin'
 
+gem 'sunspot_rails'
+gem 'sunspot_solr'
+
 group :development do
     gem 'rails_admin'
     gem 'better_errors'

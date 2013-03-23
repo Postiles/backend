@@ -41,6 +41,11 @@ class UserController < ApplicationController
     render_ok :user => user, :profile => user.profile
   end
 
+  def search_user
+    result = User.search do
+    end
+  end
+
   private
     def encrypt(password)
       return Digest::SHA1.hexdigest(password.reverse + 'mobai10000ci') # reverse, salt and SHA1

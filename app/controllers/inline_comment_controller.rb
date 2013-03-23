@@ -9,12 +9,9 @@ class InlineCommentController < ApplicationController
 
     if comment.save
       comment_with_extras = { :inline_comment => comment, :creator => comment.creator }
-
       publish board.id, PUSH_TYPE::INLINE_COMMNET, comment_with_extras
 
-      # handling notifications
-      notify :notification_type => 'reply in post', :read => false, :target_id => post.id,
-          :from_user_id => user.id, :user_id => post.creator_id
+      process_comment(comment)
 
       render_ok comment_with_extras
     else
@@ -36,6 +33,9 @@ class InlineCommentController < ApplicationController
   private
 
     def process_comment(comment)
+      # notify post creator
+      notify :notification_type => 'reply in post', :read => false, :target_id => comment.post_id
+          :from_user_id => comment.creator_id, :user_id => comment.post.creator_id
     end
 
 end

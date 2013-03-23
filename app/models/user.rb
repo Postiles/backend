@@ -31,4 +31,8 @@ class User < ActiveRecord::Base
   has_many :interests, :dependent => :destroy
 
   attr_accessible :email, :password, :session_key, :username
+
+  searchable do
+    text :username, :email
+  end
 end

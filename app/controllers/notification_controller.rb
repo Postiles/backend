@@ -18,9 +18,18 @@ class NotificationController < ApplicationController
 
   def dismiss
     user = auth(params) or return
+
+    if Notification.find(params[:notification_id]).update_attributes(:read => true)
+      render_ok
+    else
+      render_error GENERAL_ERRORS::SERVER_ERROR
+    end
   end
 
   def dismiss_all
-    
+    user = auth(params) or return
+    user.notifications.each do |n|
+      n.update_attributes :read => true
+    end
   end
 end
