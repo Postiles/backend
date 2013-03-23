@@ -32,7 +32,6 @@ class PostController < ApplicationController
     post = find_post(params[:post_id]) or return
     board = find_board(post.board_id) or return
 
-    # TODO: publish
     publish board.id, PUSH_TYPE::START, post_with_extras(post)
     
     render_ok
@@ -81,7 +80,7 @@ class PostController < ApplicationController
       return
     end
 
-    interest = Interest.new :liked => true, :user_id => user.id
+    interest = post.interests.new :liked => true, :user_id => user.id
 
     if interest.save
       render_ok :interest => interest

@@ -8,6 +8,7 @@ Backend::Application.routes.draw do
   post 'post/terminate_change'
   post 'post/get_post'
   post 'post/delete'
+  post 'post/like'
 
   post 'inline_comment/new'
   post 'inline_comment/get_inline_comments'

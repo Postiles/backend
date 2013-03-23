@@ -95,20 +95,25 @@ class ApplicationController < ActionController::Base
     end
 
     def board_with_extras(board)
-      creator = find_user(board.creator_id) or return
-      return :board => board, :creator => creator, :profile => creator.profile
+      return :board => board, :creator => board.creator
     end
 
     def post_with_extras(post)
-      return :post => post, :creator => find_user(post.creator_id)
+      return :post => post, :creator => post.creator, :likes => get_likes(post)
     end
 
     def comment_with_extras(comment)
-      return :inline_comment => comment, :creator => find_user(comment.creator_id)
+      return :inline_comment => comment, :creator => comment.creator
     end
 
     def user_with_extras(user)
-      return :user => user, :profile => find_profile(user.profile_id)
+      return :user => user, :profile => user.profile
+    end
+
+    def get_likes(interestable)
+      return interestable.interests.select do |i|
+        i.liked
+      end
     end
 
     def bluelog(msg)

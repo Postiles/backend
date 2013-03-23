@@ -8,8 +8,10 @@ class InlineCommentController < ApplicationController
         :post_id => post.id, :creator_id => user.id
 
     if comment.save
-      publish board.id, PUSH_TYPE::INLINE_COMMNET, comment_with_extras(comment)
-      render_ok comment_with_extras(comment)
+      comment_with_extras = { :inline_comment => comment, :creator => comment.creator }
+
+      publish board.id, PUSH_TYPE::INLINE_COMMNET, comment_with_extras
+      render_ok comment_with_extras
     else
       render_error GENERAL_ERRORS::SERVER_ERROR
     end
@@ -20,10 +22,10 @@ class InlineCommentController < ApplicationController
     post = find_post(params[:post_id]) or return
 
     comments = post.inline_comments.map do |ic|
-      comment_with_extras(ic)
+      { :inline_comment => ic, :creator => ic.creator }
     end
 
-    render_ok comments
+    render_ok :inline_comments => comments
   end
 
   private

@@ -3,7 +3,7 @@ class BoardController < ApplicationController
     user = auth(params) or return
     board = find_board(params[:board_id]) or return
 
-    render_ok board_with_extras(board)
+    render_ok :board => board, :user => user, :profile => user.profile
   end
 
   # move to a region in the board and get the posts in that region
@@ -13,9 +13,7 @@ class BoardController < ApplicationController
     user = auth(params) or return
     board = find_board(params[:board_id]) or return
 
-    posts_to_render = [ ]
-
-    board.posts.all.each do |p|
+    posts = board.posts.map do |p|
 =begin
       if p.pos_x >= params[:left].to_i and 
           p.pos_x + p.span_x <= params[:right].to_i and
@@ -24,9 +22,9 @@ class BoardController < ApplicationController
         posts_to_render << post_with_extras(p)
       end
 =end
-      posts_to_render << post_with_extras(p)
+      post_with_extras(p)
     end
 
-    render_ok :posts => posts_to_render
+    render_ok :posts => posts
   end
 end

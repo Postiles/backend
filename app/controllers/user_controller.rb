@@ -21,7 +21,7 @@ class UserController < ApplicationController
 
     if encrypt(params[:password]) == user.password # authenticated
       user.update_attributes :session_key => gen_random_key
-      render_ok :user_id => user.id, :session_key => user.session_key
+      render_ok :user => user
     else
       render_error CONTROLLER_ERRORS::PASSWORD_MISMATCH
     end
@@ -38,7 +38,7 @@ class UserController < ApplicationController
     user = auth(params) or return
     target_user = find_user(params[:target_user_id]) or return
 
-    render_ok user_with_extras(user)
+    render_ok :user => user, :profile => user.profile
   end
 
   private

@@ -7,7 +7,5 @@ class Interest < ActiveRecord::Base
 
   private
     def default_values
-      self.liked = false
-      self.followed = false
     end
 end
