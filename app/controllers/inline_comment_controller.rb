@@ -34,7 +34,7 @@ class InlineCommentController < ApplicationController
 
     def process_comment(comment)
       # notify post creator
-      notify :notification_type => 'reply in post', :read => false, :target_id => comment.post_id
+      notify :notification_type => 'reply in post', :read => false, :target_id => comment.post_id,
           :from_user_id => comment.creator_id, :user_id => comment.post.creator_id
     end
 

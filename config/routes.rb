@@ -32,6 +32,7 @@ Backend::Application.routes.draw do
   post 'user/login'
   post 'user/logout'
   post 'user/get_user'
+  post 'user/search_user'
 
   post 'profile/get_profile'
 

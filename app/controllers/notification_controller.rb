@@ -6,11 +6,11 @@ class NotificationController < ApplicationController
       not n.read # render all the unread notifications
     end.map do |n| # map to notification with extras
       from_user = find_user(n.from_user_id)
-      { 
+      {
           :notification => n, 
           :from_user => from_user,
           :from_user_profile => from_user.profile
-      }
+      } # notice here that all notifications should be sent from some users
     end
 
     render_ok :notifications => notifications
