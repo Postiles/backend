@@ -142,8 +142,6 @@ GEM
       activerecord (~> 3.0)
     polyglot (0.3.3)
     pr_geohash (1.0.0)
-    private_pub (1.0.3)
-      faye
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -247,7 +245,6 @@ DEPENDENCIES
   hirb
   jquery-rails
   meta_request
-  private_pub
   rails (= 3.2.9)
   rails_admin
   sass-rails (~> 3.2.3)

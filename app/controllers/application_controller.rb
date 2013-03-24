@@ -41,7 +41,9 @@ class ApplicationController < ActionController::Base
   private
     def publish(channel, status, data)
       Thread.new do
-        PrivatePub.publish_to '/faye/' + channel, { :status => status, :data => data }
+        message = { :channel => '/faye/' + channel.to_s, :data => { :status =>status, :msg => data } }
+        uri = URI.parse("http://localhost:9292/faye")
+        Net::HTTP.post_form(uri, :message => message.to_json)
       end
     end
 
