@@ -4,6 +4,8 @@ class Board < ActiveRecord::Base
 
   has_many :posts, :dependent => :destroy
 
+  has_many :board_regions, :dependent => :destroy
+
   has_many :channels, :dependent => :destroy
 
   has_many :board_administratorships, :foreign_key => :board_id, :dependent => :destroy
