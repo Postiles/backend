@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130318143522) do
+ActiveRecord::Schema.define(:version => 20130324091129) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -52,6 +52,20 @@ ActiveRecord::Schema.define(:version => 20130318143522) do
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
+
+  create_table "board_regions", :force => true do |t|
+    t.integer  "pos_x"
+    t.integer  "pos_y"
+    t.integer  "span_x"
+    t.integer  "span_y"
+    t.integer  "points"
+    t.integer  "convolution"
+    t.integer  "board_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "board_regions", ["board_id"], :name => "index_board_regions_on_board_id"
 
   create_table "boards", :force => true do |t|
     t.string   "name"
