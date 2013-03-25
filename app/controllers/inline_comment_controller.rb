@@ -24,7 +24,7 @@ class InlineCommentController < ApplicationController
     post = find_post(params[:post_id]) or return
 
     comments = post.inline_comments.map do |ic|
-      { :inline_comment => ic, :creator => ic.creator }
+      comment_with_extras(ic)
     end
 
     render_ok :inline_comments => comments
