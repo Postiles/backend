@@ -15,6 +15,7 @@ Backend::Application.routes.draw do
   post 'board/enter_board'
   post 'board/move_to'
   post 'board/get_boards_in_topic'
+  post 'board/get_hotest_region'
 
   post 'post/new'
   post 'post/start_edit'

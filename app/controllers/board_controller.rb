@@ -54,4 +54,19 @@ class BoardController < ApplicationController
 
     render_ok :boards => boards
   end
+
+  def get_hotest_region
+    user = auth(params) or return
+    board = find_board(params[:board_id]) or return
+
+    regions = board.board_regions
+  end
+
+  private
+    # find the regions that coord (row, col) belongs to
+    def find_region_by_coord(board, row, col)
+      row = row / 10 * 10 # top left corner of the region
+      col = col / 10 * 10
+      board.board_regions.where(:pos_x => col, :pos_y => row).first
+    end
 end
