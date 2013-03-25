@@ -25,3 +25,5 @@ config/unicorn.rb
 
 *.png
 *.jpg
+
+Gemfile.lock
