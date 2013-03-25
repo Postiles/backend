@@ -122,6 +122,7 @@ GEM
       activesupport (>= 3.0.0)
     kgio (2.8.0)
     libv8 (3.11.8.17)
+    log4r (1.1.10)
     mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -249,6 +250,7 @@ DEPENDENCIES
   faye
   hirb
   jquery-rails
+  log4r
   meta_request
   rails (= 3.2.9)
   rails_admin

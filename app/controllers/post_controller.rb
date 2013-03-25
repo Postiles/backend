@@ -1,4 +1,8 @@
 class PostController < ApplicationController
+  def initialize
+    super
+  end
+
   def new
     user = auth(params) or return
     board = find_board(params[:board_id]) or return
