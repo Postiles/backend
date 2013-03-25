@@ -87,6 +87,8 @@ class PostController < ApplicationController
     interest = post.interests.new :liked => true, :user_id => user.id
 
     if interest.save
+      notify :notification_type => 'like post', :read => false, :target_id => post.id,
+          :from_user_id => user.id, :user_id => post.creator_id # notify the post creator
       render_ok :interest => interest
     else
       render_error GENERAL_ERRORS::SERVER_ERROR
