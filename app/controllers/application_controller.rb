@@ -119,7 +119,7 @@ class ApplicationController < ActionController::Base
       begin
         return Post.find(post_id)
       rescue # cannot find post
-        render_error GENERAL_ERRORS::POST_NOT_FOUND
+        render_error CONTROLLER_ERRORS::POST_NOT_FOUND
         return nil
       end
     end
