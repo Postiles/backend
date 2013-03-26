@@ -38,8 +38,8 @@ class SearchController < ApplicationController
                         :conditions => [ 
                           'username LIKE ?
                           OR email LIKE ?
-                          OR Profiles.first_name LIKE ? 
-                          OR Profiles.last_name LIKE ?', 
+                          OR profiles.first_name LIKE ? 
+                          OR profiles.last_name LIKE ?', 
                           "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%",
                         ])
 
