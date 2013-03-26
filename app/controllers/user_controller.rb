@@ -17,7 +17,7 @@ class UserController < ApplicationController
     end
 
     unless user
-      render_error CONTROLLER_ERRORS::USER_NOT_FOUND
+      render_error CONTROLLER_ERRORS::PASSWORD_MISMATCH
       return
     end
 
