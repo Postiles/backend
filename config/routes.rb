@@ -11,6 +11,9 @@ Backend::Application.routes.draw do
   post 'topic/get_topic'
   post 'topic/get_topics_in_platform'
 
+  #for testing only in current stage, no formal new board support
+  post 'board/new'
+
   post 'board/get_board'
   post 'board/enter_board'
   post 'board/move_to'
