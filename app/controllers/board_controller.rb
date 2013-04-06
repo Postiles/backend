@@ -19,7 +19,7 @@ class BoardController < ApplicationController
     user = auth(params) or return
     board = find_board(params[:board_id]) or return
 
-    render_ok :board => board, :user => user, :profile => user.profile
+    render_ok :board => board
   end
 
   # move to a region in the board and get the posts in that region

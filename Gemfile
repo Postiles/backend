@@ -32,9 +32,6 @@ gem 'hirb'
 
 gem 'activeadmin'
 
-gem 'sunspot_rails'
-gem 'sunspot_solr'
-
 gem 'log4r'
 
 group :development do

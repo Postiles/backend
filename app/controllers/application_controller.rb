@@ -138,13 +138,15 @@ class ApplicationController < ActionController::Base
     end
 
     def post_with_extras(post)
-      return :post => post, :creator => post.creator, 
-          :profile => post.creator.profile, :likes => get_likes(post)
+      comments = post.inline_comments.map do |c|
+        comment_with_extras(c)
+      end
+
+      return :post => post, :likes => get_likes(post), :inline_comments => comments
     end
 
     def comment_with_extras(comment)
-      return :inline_comment => comment, :creator => comment.creator, 
-          :profile => comment.creator.profile
+      return :inline_comment => comment
     end
 
     def user_with_extras(user)

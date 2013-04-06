@@ -40,7 +40,7 @@ class UserController < ApplicationController
     user = auth(params) or return
     target_user = find_user(params[:target_user_id]) or return
 
-    render_ok :user => user, :profile => user.profile
+    render_ok :user => target_user, :profile => target_user.profile
   end
 
   private
