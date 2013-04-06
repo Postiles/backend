@@ -23,7 +23,7 @@ class UserController < ApplicationController
 
     if encrypt(params[:password]) == user.password # authenticated
       user.update_attributes :session_key => gen_random_key
-      render_ok :user => user
+     render_ok :user => user
     else
       render_error CONTROLLER_ERRORS::PASSWORD_MISMATCH
     end
