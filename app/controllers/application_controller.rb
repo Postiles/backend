@@ -182,6 +182,7 @@ class ApplicationController < ActionController::Base
       MEDIA_ILLEGAL = 'MEDIA_ILLEGAL'
       LINK_ILLEGAL = 'LINK_ILLEGAL'
       MULTIPLE_LIKE = 'multiple like'
+      UNLIKE_ILLEGAL= 'cannot like a not liked post'
       PASSWORD_MISMATCH = 'LOGIN_FAILURE_PASSWORD_MISMATCH'
       ILLEGAL_PASSWORD = 'ILLEGAL_PSWD'
     end

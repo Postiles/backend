@@ -1,7 +1,7 @@
 class BoardController < ApplicationController
   def new
     user = auth(params) or return
-    topic = find_topic(params[topic_id]) or return
+    topic = find_topic(params[:topic_id]) or return
 
     board = Board.new :name => params[:name],
         :description => params[:description],
