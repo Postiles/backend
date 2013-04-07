@@ -1,6 +1,5 @@
 class PostController < ApplicationController
   def initialize
-    super
   end
 
   def new
@@ -82,6 +81,13 @@ class PostController < ApplicationController
     if liked # already liked this post
       render_error CONTROLLER_ERRORS::MULTIPLE_LIKE
       return
+    end
+
+    if params[:unlike] # cancel like
+      if interest.delete
+        render_error GENERAL_ERRORS::SERVER_ERROR
+        return
+      end
     end
 
     interest = post.interests.new :liked => true, :user_id => user.id
