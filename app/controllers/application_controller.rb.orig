@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Headers'] = "Overwrite, Destination, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control, Content-Length, Accept, Accept-Charset, Accept-Encoding, Referer";
   end
-  
+
   def upload_image
     # user = auth(params) or return # do not auth for now
 
@@ -41,19 +41,24 @@ class ApplicationController < ActionController::Base
   private
     def publish(channel, status, data)
       Thread.new do
-        message = { :channel => '/faye/' + channel.to_s, :data => { :status => status, :msg => data } }
-        uri = URI.parse("http://localhost:9292/faye")
-        Net::HTTP.post_form(uri, :message => message.to_json)
+        PrivatePub.publish_to '/faye/' + channel, { :status => status, :data => data }
       end
     end
 
     def notify(notification_data)
+<<<<<<< HEAD
+      ntf = Notification.new notification_data
+      if ntf.save
+        publish '/notifications/' + notification_data[:user_id].to_s, 
+            PUSH_TYPE::NOTIFICATION, { :notification => ntf }
+=======
       unless notification_data[:user_id] == notification_data[:from_user_id] # should not yourself notifications
         ntf = Notification.new notification_data
         if ntf.save
-          publish 'notification/' + notification_data[:user_id].to_s, 
+          publish '/notifications/' + notification_data[:user_id].to_s, 
               PUSH_TYPE::NOTIFICATION, { :notification => ntf }
         end
+>>>>>>> bca72e40a96aa98f66b960958871210a59e0143a
       end
     end
 
@@ -119,7 +124,7 @@ class ApplicationController < ActionController::Base
       begin
         return Post.find(post_id)
       rescue # cannot find post
-        render_error CONTROLLER_ERRORS::POST_NOT_FOUND
+        render_error GENERAL_ERRORS::POST_NOT_FOUND
         return nil
       end
     end
@@ -138,15 +143,11 @@ class ApplicationController < ActionController::Base
     end
 
     def post_with_extras(post)
-      comments = post.inline_comments.map do |c|
-        comment_with_extras(c)
-      end
-
-      return :post => post, :likes => get_likes(post), :inline_comments => comments
+      return :post => post, :creator => post.creator, :likes => get_likes(post)
     end
 
     def comment_with_extras(comment)
-      return :inline_comment => comment
+      return :inline_comment => comment, :creator => comment.creator
     end
 
     def user_with_extras(user)
@@ -182,7 +183,6 @@ class ApplicationController < ActionController::Base
       MEDIA_ILLEGAL = 'MEDIA_ILLEGAL'
       LINK_ILLEGAL = 'LINK_ILLEGAL'
       MULTIPLE_LIKE = 'multiple like'
-      UNLIKE_ILLEGAL= 'cannot like a not liked post'
       PASSWORD_MISMATCH = 'LOGIN_FAILURE_PASSWORD_MISMATCH'
       ILLEGAL_PASSWORD = 'ILLEGAL_PSWD'
     end
@@ -193,6 +193,7 @@ class ApplicationController < ActionController::Base
       TERMINATE = 'terminate'
       FINISH = 'finish'
       INLINE_COMMNET = 'inline comment'
+      LINK_TO = 'link to'
       NOTIFICATION = 'notification'
     end
 

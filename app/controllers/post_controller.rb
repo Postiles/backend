@@ -69,6 +69,26 @@ class PostController < ApplicationController
     end
   end
 
+  def unlike
+      auth(params) or return
+      post = find_post(params[:post_id]) or return;
+      board = find_board(post.board_id) or return;
+      interest = Interest.where(:user_id => user.id, :interestable_id => post.id, 
+          :interestable_type => :Post).first
+
+      if !interest
+          render_error CONTROLLER_ERRORS::UNLIKE_ILLEGAL
+      end
+
+      if interest.delete
+          notify :notification_type => 'unlike post', :read=>false, target_id => post.id,
+              :from_user_id => user.id, :user_id => post.creator_id
+          render_ok
+      else
+          render_error GENERAL_ERRORS::SERVER_ERROR
+      end
+  end
+
   def like
     user = auth(params) or return
     post = find_post(params[:post_id]) or return

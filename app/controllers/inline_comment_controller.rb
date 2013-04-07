@@ -8,12 +8,12 @@ class InlineCommentController < ApplicationController
         :post_id => post.id, :creator_id => user.id
 
     if comment.save
-      comment_with_extras = { :inline_comment => comment, :creator => comment.creator }
-      publish board.id, PUSH_TYPE::INLINE_COMMNET, comment_with_extras
+      data = comment_with_extras(comment)
+      publish board.id, PUSH_TYPE::INLINE_COMMNET, data
 
       process_comment(comment)
 
-      render_ok comment_with_extras
+      render_ok data
     else
       render_error GENERAL_ERRORS::SERVER_ERROR
     end
