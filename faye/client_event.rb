@@ -1,11 +1,11 @@
 class ClientEvent
     def incoming(message, callback)
-        puts message.inspect
+#        puts message.inspect
 
         callback.call(message)
     end
     def outgoing(message, callback)
-        puts message.inspect
+        #puts message.inspect
 
         callback.call(message)
     end
