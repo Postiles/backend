@@ -23,6 +23,9 @@ class PostController < ApplicationController
       end
     end
 
+    post.image_url = params[:image_uri]
+    post.video_link = params[:video_link]
+
     if post.save
       render_ok post_with_extras(post)
     else
@@ -71,23 +74,23 @@ class PostController < ApplicationController
   end
 
   def unlike
-      auth(params) or return
-      post = find_post(params[:post_id]) or return;
-      board = find_board(post.board_id) or return;
-      interest = Interest.where(:user_id => user.id, :interestable_id => post.id, 
-          :interestable_type => :Post).first
+    user = auth(params) or return
+    post = find_post(params[:post_id]) or return;
+    board = find_board(post.board_id) or return;
+    interest = Interest.where(:user_id => user.id, :interestable_id => post.id, 
+                              :interestable_type => :Post).first
 
-      if !interest
-          render_error CONTROLLER_ERRORS::UNLIKE_ILLEGAL
-      end
+    if !interest
+      render_error CONTROLLER_ERRORS::UNLIKE_ILLEGAL
+    end
 
-      if interest.delete
-          notify :notification_type => 'unlike post', :read=>false, target_id => post.id,
-              :from_user_id => user.id, :user_id => post.creator_id
-          render_ok
-      else
-          render_error GENERAL_ERRORS::SERVER_ERROR
-      end
+    if interest.delete
+      notify :notification_type => 'unlike post', :read => false, :target_id => post.id,
+        :from_user_id => user.id, :user_id => post.creator_id
+      render_ok
+    else
+      render_error GENERAL_ERRORS::SERVER_ERROR
+    end
   end
 
   def like
