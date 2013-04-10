@@ -1,7 +1,8 @@
 class ClientEvent
-    MNOITORED_CHANNELS = [ '/meta/subscribe', '/meta/disconnect']
+    MONITORED_CHANNELS = [ '/meta/subscribe', '/meta/disconnect']
+
     def incoming(message, callback)
-        return callback.call(message) unless MONITORED_CHANNEL.include? message['channel']
+        return callback.call(message) unless MONITORED_CHANNELS.include? message['channel']
 
         puts message.inspect
         callback.call(message)
