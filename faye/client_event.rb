@@ -5,6 +5,7 @@ class ClientEvent
         return callback.call(message) unless MONITORED_CHANNELS.include? message['channel']
 
         puts message.inspect
+
         callback.call(message)
 
     end
