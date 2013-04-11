@@ -12,14 +12,15 @@ class ClientEvent
             board_id = CHANNEL_BOARD_REGEX.match(message['subscription'])[0]
             @users[message['clientId']]=board_id
             faye_client.publish('/faye/status/'+board_id, 
-            {'status'=>'online','msg'=>{'id'=>message['id'],'board_id'=>board_id}})
+            {'status'=>'online','msg'=>{'count'=>@users.size,'board_id'=>board_id}})
           end
         else
           board_id = @users[message['clientId'] ]
+          @users.delete(message['clientId'])
 #            puts "board id: " + board_id
           if board_id             
             faye_client.publish('/faye/status/'+board_id,
-            {'status'=>'offline','msg'=>{'id'=>message['id'],'board_id'=>board_id}})
+            {'status'=>'offline','msg'=>{'count'=>@users.size,'board_id'=>board_id}})
           end
         end
         callback.call(message)
