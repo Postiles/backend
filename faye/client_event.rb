@@ -17,7 +17,6 @@ class ClientEvent
         else
           board_id = @users[message['clientId'] ]
           @users.delete(message['clientId'])
-#            puts "board id: " + board_id
           if board_id             
             faye_client.publish('/faye/status/'+board_id,
             {'status'=>'offline','msg'=>{'count'=>@users.size,'board_id'=>board_id}})
