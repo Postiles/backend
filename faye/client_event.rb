@@ -1,6 +1,8 @@
 class ClientEvent
     MONITORED_CHANNELS = [ '/meta/subscribe', '/meta/disconnect']
     CHANNEL_BOARD_REGEX = /(?<=\/faye\/)\d+/ # match pattern of /faye/num, negative lookbehind
+    CHANNEL_STATUS_REGEX_BOARD = /(?<=\/faye\/status\/board\/)\d+/
+    CHANNEL_STATUS_REGEX_USER = /(?<=\/user\/)\d+/
     def initialize
       @users = Hash.new()
     end
@@ -8,27 +10,54 @@ class ClientEvent
         return callback.call(message) unless MONITORED_CHANNELS.include? message['channel']
 
         if MONITORED_CHANNELS[0].eql? message['channel']
-          if CHANNEL_BOARD_REGEX.match(message['subscription'])
-            board_id = CHANNEL_BOARD_REGEX.match(message['subscription'])[0]
-            @users[message['clientId']]=board_id
-            faye_client.publish('/faye/status/'+board_id, 
-            {'status'=>'online','msg'=>{'count'=>@users.size,'board_id'=>board_id}})
-          end
+            if CHANNEL_STATUS_REGEX_BOARD.match(message['subscription'])
+                board_id = CHANNEL_STATUS_REGEX_BOARD.match(message['subscription'])[0]
+                user_id = CHANNEL_STATUS_REGEX_USER.match(message['subscription'])[0]
+                user = OnlineUser.new(board_id, user_id)
+                @users[message['clientId']] = user
+                arr = Array.new
+                @users.each_value{|value| arr.push(value.user_id)}
+                msg = {'count'=>@users.size,'users'=>arr}
+                faye_client.publish('/faye/status/'+board_id, 
+                {'status'=>'online','msg'=>{'count'=>@users.size,'users'=>msg}})
+            end
         else
-          board_id = @users[message['clientId'] ]
-          @users.delete(message['clientId'])
-          if board_id             
-            faye_client.publish('/faye/status/'+board_id,
-            {'status'=>'offline','msg'=>{'count'=>@users.size,'board_id'=>board_id}})
+            puts message['clientId']
+            board_id = nil
+            if @users[message['clientId'] ]
+                board_id = @users[message['clientId']].board_id
+            end
+            @users.delete(message['clientId'])
+            if board_id             
+                arr = Array.new
+                @users.each_value{|value| arr.push(value.user_id)}
+                msg = {'count'=>@users.size,'users'=>arr}
+                faye_client.publish('/faye/status/'+board_id, 
+                {'status'=>'offline','msg'=>{'count'=>@users.size,'users'=>msg}})
           end
         end
         callback.call(message)
 
     end
     def outgoing(message, callback)
+        #puts message.inspect
         callback.call(message)
     end
     def faye_client
         @faye_client ||= Faye::Client.new('http://localhost:9292/faye')
     end
 end
+
+class OnlineUser
+    def initialize(board_id, user_id)
+        @board_id = board_id
+        @user_id = user_id
+    end
+    def board_id
+        @board_id
+    end
+    def user_id
+        @user_id
+    end
+end
+

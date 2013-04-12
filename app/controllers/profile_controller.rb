@@ -7,8 +7,20 @@ class ProfileController < ApplicationController
 
   def update_profile_item 
     user = auth(params) or return
-    bluelog params[:item]
+
     if user.profile.update_attributes(params[:item] => params[:value]) # success
+      render_ok
+    else # fail
+      render_error GENERAL_ERRORS::SERVER_ERROR
+    end
+  end
+
+  def update_profile_image
+    user = auth(params) or return
+
+    new_image = params[:image_url]
+
+    if user.profile.update_attributes(:image_url => new_image, :image_small_url => new_image)
       render_ok
     else # fail
       render_error GENERAL_ERRORS::SERVER_ERROR

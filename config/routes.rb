@@ -40,6 +40,7 @@ Backend::Application.routes.draw do
 
   post 'profile/get_profile'
   post 'profile/update_profile_item'
+  post 'profile/update_profile_image'
 
   post 'notification/get_notifications'
   post 'notification/dismiss'
