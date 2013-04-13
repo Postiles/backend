@@ -28,3 +28,5 @@ config/database.yml
 *.jpg
 
 Gemfile.lock
+
+public/uploads/*
