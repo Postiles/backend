@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130324091129) do
+ActiveRecord::Schema.define(:version => 20130413093314) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(:version => 20130324091129) do
     t.string   "type"
     t.string   "image_url"
     t.string   "video_link"
+    t.boolean  "in_edit"
   end
 
   add_index "posts", ["board_id"], :name => "index_posts_on_board_id"

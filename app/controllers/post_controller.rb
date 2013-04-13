@@ -38,6 +38,8 @@ class PostController < ApplicationController
     post = find_post(params[:post_id]) or return
     board = find_board(post.board_id) or return
 
+    post.update_attributes :in_edit => true
+
     publish board.id, PUSH_TYPE::START, post_with_extras(post)
     
     render_ok
@@ -48,10 +50,7 @@ class PostController < ApplicationController
     post = find_post(params[:post_id]) or return
     board = find_board(post.board_id) or return
 
-    post.title = params[:title]
-    post.content = params[:content]
-
-    if post.save
+    if post.update_attributes :title => params[:title], :content => params[:content], :in_edit => false
       publish board.id, PUSH_TYPE::FINISH, post_with_extras(post)
       render_ok
     else
