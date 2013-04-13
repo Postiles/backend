@@ -10,12 +10,15 @@ class ApplicationController < ActionController::Base
   end
   
   def upload_image
-    # user = auth(params) or return # do not auth for now
+    user = auth(params) or return
 
     image = params[:image]
-    filename = image.original_filename
 
-    path = "#{Rails.root}/public/uploads/#{filename}"
+    path = params[:upload_path]
+
+    filename = params[:user_id] + '_' + Time.now.to_i.to_s
+    
+    path = "#{Rails.root}/public/uploads/#{path}/#{filename}"
 
     File.open(path, 'wb') do |f|
       f.write(image.read)

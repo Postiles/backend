@@ -27,6 +27,7 @@ Backend::Application.routes.draw do
   post 'post/get_post'
   post 'post/delete'
   post 'post/like'
+  post 'post/unlike'
 
   post 'inline_comment/new'
   post 'inline_comment/get_inline_comments'
@@ -39,6 +40,7 @@ Backend::Application.routes.draw do
 
   post 'profile/get_profile'
   post 'profile/update_profile_item'
+  post 'profile/update_profile_image'
 
   post 'notification/get_notifications'
   post 'notification/dismiss'
