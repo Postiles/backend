@@ -8,12 +8,15 @@ class ClientEvent
     end
     def incoming(message, callback)
         return callback.call(message) unless MONITORED_CHANNELS.include? message['channel']
+        callback.call(message)
 
         if MONITORED_CHANNELS[0].eql? message['channel']
             if CHANNEL_STATUS_REGEX_BOARD.match(message['subscription'])
                 board_id = CHANNEL_STATUS_REGEX_BOARD.match(message['subscription'])[0]
                 user_id = CHANNEL_STATUS_REGEX_USER.match(message['subscription'])[0]
                 user = OnlineUser.new(board_id, user_id)
+                #delete duplication
+                @users.delete_if{|key,value| value.user_id == user_id}
                 @users[message['clientId']] = user
                 arr = Array.new
                 @users.each_value{|value| arr.push(value.user_id)}
@@ -22,7 +25,6 @@ class ClientEvent
                 {'status'=>'online','msg'=>{'count'=>@users.size,'users'=>msg}})
             end
         else
-            puts message['clientId']
             board_id = nil
             if @users[message['clientId'] ]
                 board_id = @users[message['clientId']].board_id
@@ -36,7 +38,6 @@ class ClientEvent
                 {'status'=>'offline','msg'=>{'count'=>@users.size,'users'=>msg}})
           end
         end
-        callback.call(message)
 
     end
     def outgoing(message, callback)
