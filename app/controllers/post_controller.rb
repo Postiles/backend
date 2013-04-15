@@ -83,8 +83,8 @@ class PostController < ApplicationController
     end
 
     if interest.delete
-      notify :notification_type => 'unlike post', :read => false, :target_id => post.id,
-        :from_user_id => user.id, :user_id => post.creator_id
+      # notify :notification_type => 'unlike post', :read => false, :target_id => post.id,
+      #   :from_user_id => user.id, :user_id => post.creator_id
       render_ok
     else
       render_error GENERAL_ERRORS::SERVER_ERROR
@@ -126,10 +126,11 @@ class PostController < ApplicationController
   def delete
     user = auth(params) or return
     post = find_post(params[:post_id]) or return
-    board = find_board(post.board_id) or return
+
+    # TODO: can only be deleted by certain users
 
     if post.delete # success
-      publish board.id, PUSH_TYPE::DELETE, post_with_extras(post)
+      publish post.board.id, PUSH_TYPE::DELETE, post_with_extras(post)
       render_ok
     else
       render_error GENERAL_ERRORS::SERVER_ERROR

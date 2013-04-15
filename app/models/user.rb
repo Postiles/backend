@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
 
   has_many :interests, :dependent => :destroy
 
-  attr_accessible :email, :password, :session_key, :username
+  attr_accessible :email, :password, :session_key, :username, :profile_id
 
 =begin
   searchable do

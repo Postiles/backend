@@ -6,7 +6,9 @@ class BoardController < ApplicationController
     board = Board.new :name => params[:name],
         :description => params[:description],
         :topic_id => topic.id,
-        :creator_id => user.id
+        :creator_id => user.id,
+        :image_url => 'default_image/board.png',
+        :image_small_url => 'default_image/board.png'
 
     if board.save
       render_ok :board => board
@@ -29,6 +31,8 @@ class BoardController < ApplicationController
     user = auth(params) or return
     board = find_board(params[:board_id]) or return
 
+    currTime = Time.now
+
     posts = board.posts.map do |p|
 =begin
       if p.pos_x >= params[:left].to_i and 
@@ -38,6 +42,8 @@ class BoardController < ApplicationController
         posts_to_render << post_with_extras(p)
       end
 =end
+      # if inactive for 600 secs, mark as not in edit
+      p.update_attributes :in_edit => false if currTime - p.updated_at > 600
       post_with_extras(p)
     end
 
@@ -60,6 +66,38 @@ class BoardController < ApplicationController
     board = find_board(params[:board_id]) or return
 
     regions = board.board_regions
+  end
+
+  def get_post_count
+    user = auth(params) or return
+    board = find_board(params[:board_id]) or return
+
+    render_ok :post_count => board.posts.length
+  end
+
+  def get_recent_posts
+    user = auth(params) or return
+    board = find_board(params[:board_id]) or return
+
+    if params[:number]
+      number = params[:number].to_i
+    else
+      number = 2
+    end
+
+    posts_in_board = board.posts
+
+    if posts_in_board.length < number or number == 0
+      posts_to_render = posts_in_board # render all
+    else
+      posts_to_render = posts_in_board[ -number .. -1 ]
+    end
+
+    posts_to_render = posts_to_render.map do |p|
+      post_with_extras(p)
+    end
+
+    render_ok posts_to_render
   end
 
   private

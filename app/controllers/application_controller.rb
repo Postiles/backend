@@ -127,6 +127,15 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def find_inline_comment(comment_id)
+      begin
+        return InlineComment.find(comment_id)
+      rescue # cannot find inline_comment
+        render_error CONTROLLER_ERRORS::INLINE_COMMNET_NOT_FOUND
+        return nil
+      end
+    end
+
     def find_profile(profile_id)
       begin
         return Profile.find(profile_id)
@@ -177,6 +186,7 @@ class ApplicationController < ActionController::Base
       CHANNEL_NOT_FOUND = 'CHANNEL_NOT_FOUND'
       TOPIC_NOT_FOUND = 'TOPIC_NOT_FOUND'
       POST_NOT_FOUND = 'POST_NOT_FOUND'
+      INLINE_COMMNET_NOT_FOUND = 'INLINE_COMMNET_NOT_FOUND'
       BOARD_NOT_FOUND = 'BOARD_NOT_FOUND'
       USER_NOT_FOUND = 'USER_NOT_FOUND'
       PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND'
@@ -188,6 +198,8 @@ class ApplicationController < ActionController::Base
       UNLIKE_ILLEGAL= 'cannot like a not liked post'
       PASSWORD_MISMATCH = 'LOGIN_FAILURE_PASSWORD_MISMATCH'
       ILLEGAL_PASSWORD = 'ILLEGAL_PSWD'
+      USERNAME_USED = 'username used'
+      EMAIL_USED = 'email used'
     end
     
     module PUSH_TYPE
@@ -196,6 +208,7 @@ class ApplicationController < ActionController::Base
       TERMINATE = 'terminate'
       FINISH = 'finish'
       INLINE_COMMNET = 'inline comment'
+      DELETE_COMMENT = 'delete comment'
       NOTIFICATION = 'notification'
     end
 

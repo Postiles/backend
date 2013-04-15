@@ -13,7 +13,7 @@ class NotificationController < ApplicationController
       } # notice here that all notifications should be sent from some users
     end
 
-    render_ok :notifications => notifications
+    render_ok :notifications => notifications.reverse
   end
 
   def dismiss

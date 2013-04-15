@@ -3,7 +3,7 @@ class TopicController < ApplicationController
     user = auth(params) or return
     topic = find_topic(params[:topic_id]) or return
 
-    render_ok :topic => topic, :creator => topic.creator
+    render_ok :topic => topic
   end
 
   def get_topics_in_platform
@@ -11,7 +11,7 @@ class TopicController < ApplicationController
     platform = find_platform(params[:platform_id]) or return
 
     topics = platform.topics.map do |t|
-      { :topic => topic, :creator => topic.creator }
+      { :topic => topic }
     end
 
     render_ok topics
