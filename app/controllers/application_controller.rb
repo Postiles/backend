@@ -188,6 +188,8 @@ class ApplicationController < ActionController::Base
       UNLIKE_ILLEGAL= 'cannot like a not liked post'
       PASSWORD_MISMATCH = 'LOGIN_FAILURE_PASSWORD_MISMATCH'
       ILLEGAL_PASSWORD = 'ILLEGAL_PSWD'
+      USERNAME_USED = 'username used'
+      EMAIL_USED = 'email used'
     end
     
     module PUSH_TYPE

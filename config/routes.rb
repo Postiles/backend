@@ -19,6 +19,8 @@ Backend::Application.routes.draw do
   post 'board/move_to'
   post 'board/get_boards_in_topic'
   post 'board/get_hotest_region'
+  post 'board/get_post_count'
+  post 'board/get_recent_posts'
 
   post 'post/new'
   post 'post/start_edit'

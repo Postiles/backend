@@ -83,8 +83,8 @@ class PostController < ApplicationController
     end
 
     if interest.delete
-      notify :notification_type => 'unlike post', :read => false, :target_id => post.id,
-        :from_user_id => user.id, :user_id => post.creator_id
+      # notify :notification_type => 'unlike post', :read => false, :target_id => post.id,
+      #   :from_user_id => user.id, :user_id => post.creator_id
       render_ok
     else
       render_error GENERAL_ERRORS::SERVER_ERROR

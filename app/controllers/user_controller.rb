@@ -1,11 +1,40 @@
 class UserController < ApplicationController
   def new
     # NOTE: after creating a user, must create a profile
+    username = params[:username]
+    email = params[:email]
+    password = params[:password]
+
+    first_name = params[:first_name]
+    last_name = params[:last_name]
+
+    users = User.all
+
+    users.each do |u|
+      if u.username == username
+        render_error CONTROLLER_ERRORS::USERNAME_USED
+        return
+      elsif u.email == email
+        render_error CONTROLLER_ERRORS::EMAIL_USED
+        return
+      end
+    end
+
+    new_user = User.new :username => username, :email => email, :password => encrypt(password)
+    new_user.profile = Profile.new :first_name => first_name, :last_name => last_name
+
+    if new_user.save
+      render_ok
+    else
+      render_error GENERAL_ERRORS::SERVER_ERROR
+    end
   end
 
+=begin
   def activate
     # NOTE: after creating a user, must create a profile
   end
+=end
 
   def login
     username_or_email = params[:username]
