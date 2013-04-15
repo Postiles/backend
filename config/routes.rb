@@ -33,12 +33,14 @@ Backend::Application.routes.draw do
 
   post 'inline_comment/new'
   post 'inline_comment/get_inline_comments'
+  post 'inline_comment/delete'
 
   post 'user/new'
   post 'user/activate'
   post 'user/login'
   post 'user/logout'
   post 'user/get_user'
+  post 'user/verify_username_unique'
 
   post 'profile/get_profile'
   post 'profile/update_profile_item'

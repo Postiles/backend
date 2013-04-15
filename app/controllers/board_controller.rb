@@ -87,7 +87,7 @@ class BoardController < ApplicationController
 
     posts_in_board = board.posts
 
-    if posts_in_board.length < number
+    if posts_in_board.length < number or number == 0
       posts_to_render = posts_in_board # render all
     else
       posts_to_render = posts_in_board[ -number .. -1 ]

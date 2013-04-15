@@ -30,6 +30,16 @@ class UserController < ApplicationController
     end
   end
 
+  def verify_username_unique
+    user = User.where(:username => params[:username]).first
+    if user != nil
+      render_error CONTROLLER_ERRORS::USERNAME_USED
+      return
+    end
+    render_ok
+  end
+
+
 =begin
   def activate
     # NOTE: after creating a user, must create a profile
