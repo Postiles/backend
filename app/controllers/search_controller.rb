@@ -36,10 +36,9 @@ class SearchController < ApplicationController
     results = User.find(:all, 
                         :include => [ :profile ],
                         :conditions => [ 
-                          'username LIKE ?
-                          OR email LIKE ?
+                          'email LIKE ?
                           OR profiles.full_name LIKE ?', 
-                          "%#{keyword}%", "%#{keyword}%", "%#{keyword}%",
+                          "%#{keyword}%", "%#{keyword}%",
                         ])
 
     users = results[0...5].map do |r| # pick 5 results

@@ -1,7 +1,6 @@
 class UserController < ApplicationController
   def new
     # NOTE: after creating a user, must create a profile
-    username = params[:username]
     email = params[:email]
     password = params[:password]
 
@@ -11,16 +10,13 @@ class UserController < ApplicationController
     users = User.all
 
     users.each do |u|
-      if u.username == username
-        render_error CONTROLLER_ERRORS::USERNAME_USED
-        return
-      elsif u.email == email
+      if u.email == email
         render_error CONTROLLER_ERRORS::EMAIL_USED
         return
       end
     end
 
-    new_user = User.new :username => username, :email => email, :password => encrypt(password)
+    new_user = User.new :email => email, :password => encrypt(password)
     new_user.profile = Profile.new :first_name => first_name, :last_name => last_name
 
     if new_user.save
@@ -30,16 +26,6 @@ class UserController < ApplicationController
     end
   end
 
-  def verify_username_unique
-    user = User.where(:username => params[:username]).first
-    if user != nil
-      render_error CONTROLLER_ERRORS::USERNAME_USED
-      return
-    end
-    render_ok
-  end
-
-
 =begin
   def activate
     # NOTE: after creating a user, must create a profile
@@ -47,12 +33,12 @@ class UserController < ApplicationController
 =end
 
   def login
-    username_or_email = params[:username]
+    email = params[:username]
 
-    if username_or_email.include?('@') # email given
-      user = User.where(:email => username_or_email).first
-    else # username given
-      user = User.where(:username => username_or_email).first
+    if email.include?('@') # email given
+      user = User.where(:email => email).first
+    else # email given
+      user = User.where(:email => email).first
     end
 
     unless user
