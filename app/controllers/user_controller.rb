@@ -48,7 +48,7 @@ class UserController < ApplicationController
 
     if encrypt(params[:password]) == user.password # authenticated
       user.update_attributes :session_key => gen_random_key
-     render_ok :user => user
+      render_ok :user => user
     else
       render_error CONTROLLER_ERRORS::PASSWORD_MISMATCH
     end
@@ -61,8 +61,27 @@ class UserController < ApplicationController
     render_ok
   end
 
-  def get_user
+  def change_password
     user = auth(params) or return
+    old_password = params[:old_password]
+    new_password = params[:new_password]
+
+    if (encrypt(old_password) == user.password) # match
+      if user.update_attributes :password => encrypt(new_password)
+        render_ok
+      else
+        render_error GENERAL_ERRORS::SERVER_ERROR
+      end
+    else
+      render_error CONTROLLER_ERRORS::PASSWORD_MISMATCH
+    end
+  end
+
+  def get_user
+    if params[:target_user_id ] == "0" or params[:target_user_id] == ""
+      render_ok :user => "0"
+      return
+    end
     target_user = find_user(params[:target_user_id]) or return
 
     render_ok :user => target_user, :profile => target_user.profile

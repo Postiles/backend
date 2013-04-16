@@ -38,6 +38,8 @@ gem 'activeadmin'
 
 gem 'log4r'
 
+# gem "rmagick"
+
 group :development do
     gem 'rails_admin'
     gem 'better_errors'

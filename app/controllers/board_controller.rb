@@ -18,7 +18,6 @@ class BoardController < ApplicationController
   end
 
   def enter_board
-    user = auth(params) or return
     board = find_board(params[:board_id]) or return
 
     render_ok :board => board
@@ -28,7 +27,6 @@ class BoardController < ApplicationController
   #   @param board_id
   #   @param left, right, top, bottom
   def move_to
-    user = auth(params) or return
     board = find_board(params[:board_id]) or return
 
     currTime = Time.now
@@ -51,7 +49,6 @@ class BoardController < ApplicationController
   end
 
   def get_boards_in_topic
-    user = auth(params) or return
     topic = find_topic(params[:topic_id]) or return
 
     boards = topic.boards.map do |b|
@@ -62,21 +59,18 @@ class BoardController < ApplicationController
   end
 
   def get_hotest_region
-    user = auth(params) or return
     board = find_board(params[:board_id]) or return
 
     regions = board.board_regions
   end
 
   def get_post_count
-    user = auth(params) or return
     board = find_board(params[:board_id]) or return
 
     render_ok :post_count => board.posts.length
   end
 
   def get_recent_posts
-    user = auth(params) or return
     board = find_board(params[:board_id]) or return
 
     if params[:number]

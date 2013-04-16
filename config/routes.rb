@@ -2,8 +2,6 @@ Backend::Application.routes.draw do
   ActiveAdmin.routes(self)
   devise_for :admin_users, ActiveAdmin::Devise.config
 
-  post 'application/upload_image'
-
   post 'platform/new'
   post 'platform/get_platform'
 
@@ -41,6 +39,7 @@ Backend::Application.routes.draw do
   post 'user/logout'
   post 'user/get_user'
   post 'user/verify_username_unique'
+  post 'user/change_password'
 
   post 'profile/get_profile'
   post 'profile/update_profile_item'
@@ -54,4 +53,6 @@ Backend::Application.routes.draw do
   post 'search/search_board'
   post 'search/search_post'
   post 'search/search_user'
+
+  post 'upload/upload_image'
 end
