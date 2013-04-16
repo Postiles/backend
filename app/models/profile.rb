@@ -1,6 +1,6 @@
 class Profile < ActiveRecord::Base
   belongs_to :user
-  attr_accessible :education, :full_name, :hometown, :image_small_url, :image_url, :language, :location, :personal_description, :signiture, :website, :work, :user_id
+  attr_accessible :education, :username, :hometown, :image_small_url, :image_url, :language, :location, :personal_description, :signiture, :website, :work, :user_id
 
   # after_initialize :default_values
 

@@ -37,7 +37,7 @@ class SearchController < ApplicationController
                         :include => [ :profile ],
                         :conditions => [ 
                           'email LIKE ?
-                          OR profiles.full_name LIKE ?', 
+                          OR profiles.username LIKE ?', 
                           "%#{keyword}%", "%#{keyword}%",
                         ])
 
