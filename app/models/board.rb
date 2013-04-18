@@ -12,5 +12,5 @@ class Board < ActiveRecord::Base
 
   has_many :interests, :as => :interestable, :dependent => :destroy
 
-  attr_accessible :deleted, :description, :image_small_url, :image_url, :name, :topic_id, :creator_id
+  attr_accessible :deleted, :description, :image_small_url, :image_url, :name, :topic_id, :creator_id, :anonymous, :default_view
 end

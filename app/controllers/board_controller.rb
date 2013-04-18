@@ -48,6 +48,46 @@ class BoardController < ApplicationController
     render_ok :posts => posts
   end
 
+  def like
+    user = auth(params) or return
+    board = find_board(params[:board_id]) or return
+
+    liked = Interest.where(:user_id => user.id, :interestable_id => board.id, 
+        :interestable_type => :Board).first
+
+    if liked
+      render_error CONTROLLER_ERRORS::MULTIPLE_LIKE
+      return
+    end
+
+    interest = board.interests.new :liked => true, :user_id => user.id
+
+    if interest.save
+      render_ok
+    else
+      render_error GENERAL_ERRORS::SERVER_ERROR
+    end
+  end
+
+  def unlike
+    user = auth(params) or return
+    board = find_board(params[:board_id]) or return
+
+    interest = Interest.where(:user_id => user.id, :interestable_id => board.id, 
+                              :interestable_type => :Board).first
+
+    if !interest
+      render_error CONTROLLER_ERRORS::UNLIKE_ILLEGAL
+      return
+    end
+
+    if interest.delete
+      render_ok
+    else
+      render_error GENERAL_ERRORS::SERVER_ERROR
+    end
+  end
+
   def get_boards_in_topic
     topic = find_topic(params[:topic_id]) or return
 

@@ -19,6 +19,8 @@ Backend::Application.routes.draw do
   post 'board/get_hotest_region'
   post 'board/get_post_count'
   post 'board/get_recent_posts'
+  post 'board/like'
+  post 'board/unlike'
 
   post 'post/new'
   post 'post/start_edit'
@@ -32,6 +34,8 @@ Backend::Application.routes.draw do
   post 'inline_comment/new'
   post 'inline_comment/get_inline_comments'
   post 'inline_comment/delete'
+  post 'inline_comment/like'
+  post 'inline_comment/unlike'
 
   post 'user/new'
   post 'user/activate'
@@ -40,6 +44,9 @@ Backend::Application.routes.draw do
   post 'user/get_user'
   post 'user/verify_username_unique'
   post 'user/change_password'
+  post 'user/request_invitation'
+  post 'user/get_additional_data'
+  post 'user/finish_tutorial'
 
   post 'profile/get_profile'
   post 'profile/update_profile_item'

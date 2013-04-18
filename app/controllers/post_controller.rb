@@ -73,18 +73,21 @@ class PostController < ApplicationController
 
   def unlike
     user = auth(params) or return
-    post = find_post(params[:post_id]) or return;
-    board = find_board(post.board_id) or return;
+    post = find_post(params[:post_id]) or return
+
     interest = Interest.where(:user_id => user.id, :interestable_id => post.id, 
                               :interestable_type => :Post).first
 
     if !interest
       render_error CONTROLLER_ERRORS::UNLIKE_ILLEGAL
+      return
     end
 
     if interest.delete
-      # notify :notification_type => 'unlike post', :read => false, :target_id => post.id,
-      #   :from_user_id => user.id, :user_id => post.creator_id
+=begin
+      notify :notification_type => 'unlike post', :read => false, :target_id => post.id,
+        :from_user_id => user.id, :user_id => post.creator_id
+=end
       render_ok
     else
       render_error GENERAL_ERRORS::SERVER_ERROR
@@ -94,7 +97,7 @@ class PostController < ApplicationController
   def like
     user = auth(params) or return
     post = find_post(params[:post_id]) or return
-    board = find_board(post.board_id) or return
+    # board = find_board(post.board_id) or return
 
     # check whether the user already liked the post
     liked = Interest.where(:user_id => user.id, :interestable_id => post.id, 
@@ -105,19 +108,14 @@ class PostController < ApplicationController
       return
     end
 
-    if params[:unlike] # cancel like
-      if interest.delete
-        render_error GENERAL_ERRORS::SERVER_ERROR
-        return
-      end
-    end
-
     interest = post.interests.new :liked => true, :user_id => user.id
 
     if interest.save
+=begin
       notify :notification_type => 'like post', :read => false, :target_id => post.id,
           :from_user_id => user.id, :user_id => post.creator_id # notify the post creator
-      render_ok :interest => interest
+=end
+      render_ok
     else
       render_error GENERAL_ERRORS::SERVER_ERROR
     end

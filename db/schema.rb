@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130416125427) do
+ActiveRecord::Schema.define(:version => 20130418072221) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -77,6 +77,8 @@ ActiveRecord::Schema.define(:version => 20130416125427) do
     t.integer  "creator_id",      :null => false
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.boolean  "anonymous"
+    t.string   "default_view"
   end
 
   add_index "boards", ["topic_id"], :name => "index_boards_on_topic_id"
@@ -122,6 +124,14 @@ ActiveRecord::Schema.define(:version => 20130416125427) do
   end
 
   add_index "interests", ["user_id"], :name => "index_interests_on_user_id"
+
+  create_table "invitation_requests", :force => true do |t|
+    t.string   "username"
+    t.string   "email"
+    t.string   "reason"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "notifications", :force => true do |t|
     t.string   "notification_type"

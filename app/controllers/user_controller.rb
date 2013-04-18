@@ -87,6 +87,33 @@ class UserController < ApplicationController
     render_ok :user => target_user, :profile => target_user.profile
   end
 
+  def get_additional_data
+    target_user = find_user(params[:target_user_id]) or return
+
+    render_ok :additional => target_user.user_data
+  end
+
+  def finish_tutorial
+    target_user = find_user(params[:target_user_id]) or return
+
+    if target_user.user_data.update_attributes :got_started => true
+      render_ok
+    else
+      render_error GENERAL_ERRORS::SERVER_ERROR
+    end
+  end
+
+  def request_invitation
+    req = InvitationRequest.new :username => params[:username], 
+      :email => params[:email], :reason => params[:reason]
+
+    if req.save
+      render_ok
+    else
+      render_error GENERAL_ERRORS::SERVER_ERROR
+    end
+  end
+
   private
     def encrypt(password)
       return Digest::SHA1.hexdigest(password.reverse + 'mobai10000ci') # reverse, salt and SHA1
