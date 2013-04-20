@@ -3,6 +3,9 @@ class InlineCommentController < ApplicationController
     user = auth(params) or return
     post = find_post(params[:post_id]) or return
     board = find_board(post.board_id) or return
+    logger.debug '-----------------------------------------------'
+    logger.debug params[:content]
+    logger.debug '-----------------------------------------------'
 
     comment = InlineComment.new :content => params[:content], 
         :post_id => post.id, :creator_id => user.id
@@ -94,9 +97,22 @@ class InlineCommentController < ApplicationController
         from_user_id = comment.creator_id
       end
 
-      # notify post creator
-      notify :notification_type => 'reply in post', :read => false, :target_id => comment.post_id,
-          :from_user_id => from_user_id, :user_id => comment.post.creator_id
+      matches = comment.content.scan(/\[at\](\d+)\[\/at\]/)
+
+      if not matches.empty? # matches exist
+        matches.each do |m|
+          at_user_id = m[0].to_i
+          notify :notification_type => 'mention', :read => false, :target_id => comment.post_id,
+            :from_user_id => from_user_id, :user_id => at_user_id
+        end
+      end
+      
+      if comment.creator_id != comment.post.creator_id # not my own post
+        # notify post creator
+        notify :notification_type => 'reply in post', :read => false, :target_id => comment.post_id,
+            :from_user_id => from_user_id, :user_id => comment.post.creator_id
+      end
+
     end
 
 end

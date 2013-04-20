@@ -31,15 +31,17 @@ class BoardController < ApplicationController
 
     currTime = Time.now
 
-    posts = board.posts.map do |p|
-=begin
-      if p.pos_x >= params[:left].to_i and 
-          p.pos_x + p.span_x <= params[:right].to_i and
-          p.pos_y >= params[:top].to_i and
-          p.pos_y + p.span_y <= params[:bottom].to_i
-        posts_to_render << post_with_extras(p)
-      end
-=end
+    logger.debug '---------------------------------------------'
+    logger.debug params[:left]
+    logger.debug '---------------------------------------------'
+
+    posts = board.posts.select do |p|
+      logger.debug p.pos_x
+      p.pos_x >= params[:left].to_i and 
+        p.pos_x + p.span_x <= params[:right].to_i and
+        p.pos_y >= params[:top].to_i and
+        p.pos_y + p.span_y <= params[:bottom].to_i
+    end.map do |p|
       # if inactive for 600 secs, mark as not in edit
       p.update_attributes :in_edit => false if currTime - p.updated_at > 600
       post_with_extras(p)

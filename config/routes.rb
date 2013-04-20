@@ -47,6 +47,7 @@ Backend::Application.routes.draw do
   post 'user/request_invitation'
   post 'user/get_additional_data'
   post 'user/finish_tutorial'
+  post 'user/this_route_does_nothing'
 
   post 'profile/get_profile'
   post 'profile/update_profile_item'

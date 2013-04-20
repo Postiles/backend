@@ -143,7 +143,7 @@ class ApplicationController < ActionController::Base
     end
 
     def comment_with_extras(comment)
-      return :inline_comment => comment
+      return :inline_comment => comment, :likes => get_likes(comment)
     end
 
     def user_with_extras(user)

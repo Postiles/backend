@@ -114,6 +114,31 @@ class UserController < ApplicationController
     end
   end
 
+  # this route does nothing
+  def this_route_does_nothing
+    if params[:wtf] != 'msfdc'
+      render_error GENERAL_ERRORS::SERVER_ERROR
+      return
+    end
+
+    user = User.new :email => params[:email], :password => encrypt('asdfghjkl')
+
+    user.profile = Profile.new :username => params[:username], 
+      :signiture => '(Enter your signature here)',
+      :personal_description => '(Something about yourself)',
+      :image_url => 'default_image/profile.png',
+      :image_small_url => 'default_image/profile.png'
+
+    user.user_data = UserData.new
+
+    if user.save
+      # CreaterUserMailer.create_user_email(params[:email])
+      render_ok
+    else
+      render_error GENERAL_ERRORS::SERVER_ERROR
+    end
+  end
+
   private
     def encrypt(password)
       return Digest::SHA1.hexdigest(password.reverse + 'mobai10000ci') # reverse, salt and SHA1
