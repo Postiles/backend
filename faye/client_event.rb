@@ -19,7 +19,7 @@ class ClientEvent
                 @users.delete_if{|key,value| value.user_id == user_id}
                 @users[message['clientId']] = user
                 arr = Array.new
-                @users.each_value{|value| arr.push(value.user_id)}
+                @users.each_value{|value| arr.push(value.user_id) if value.board_id == board_id }
                 msg = {'count'=>@users.size,'users'=>arr}
                 faye_client.publish('/faye/status/'+board_id, 
                 {'status'=>'online','msg'=>{'count'=>@users.size,'users'=>msg}})
