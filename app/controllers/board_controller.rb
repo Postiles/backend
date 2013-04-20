@@ -31,12 +31,7 @@ class BoardController < ApplicationController
 
     currTime = Time.now
 
-    logger.debug '---------------------------------------------'
-    logger.debug params[:left]
-    logger.debug '---------------------------------------------'
-
     posts = board.posts.select do |p|
-      logger.debug p.pos_x
       p.pos_x >= params[:left].to_i and 
         p.pos_x + p.span_x <= params[:right].to_i and
         p.pos_y >= params[:top].to_i and

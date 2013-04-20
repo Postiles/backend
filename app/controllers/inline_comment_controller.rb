@@ -3,9 +3,6 @@ class InlineCommentController < ApplicationController
     user = auth(params) or return
     post = find_post(params[:post_id]) or return
     board = find_board(post.board_id) or return
-    logger.debug '-----------------------------------------------'
-    logger.debug params[:content]
-    logger.debug '-----------------------------------------------'
 
     comment = InlineComment.new :content => params[:content], 
         :post_id => post.id, :creator_id => user.id
