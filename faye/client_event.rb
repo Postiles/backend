@@ -20,9 +20,9 @@ class ClientEvent
                 @users[message['clientId']] = user
                 arr = Array.new
                 @users.each_value{|value| arr.push(value.user_id) if value.board_id == board_id }
-                msg = {'count'=>@users.size,'users'=>arr}
+                msg = {'count'=>arr.size,'users'=>arr}
                 faye_client.publish('/faye/status/'+board_id, 
-                {'status'=>'online','msg'=>{'count'=>@users.size,'users'=>msg}})
+                {'status'=>'online','msg'=>{'count'=>arr.size,'users'=>msg}})
             end
         else
             board_id = nil
