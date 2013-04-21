@@ -7,6 +7,8 @@ class BoardController < ApplicationController
         :description => params[:description],
         :topic_id => topic.id,
         :creator_id => user.id,
+        :default_view => params[:default_view],
+        :anonymous => params[:anonymous],
         :image_url => 'default_image/board.png',
         :image_small_url => 'default_image/board.png'
 
@@ -89,7 +91,7 @@ class BoardController < ApplicationController
     topic = find_topic(params[:topic_id]) or return
 
     boards = topic.boards.map do |b|
-      { :board => b, :creator => b.creator }
+      board_with_extras(b)
     end
 
     render_ok :boards => boards

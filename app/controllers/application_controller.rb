@@ -131,7 +131,7 @@ class ApplicationController < ActionController::Base
     end
 
     def board_with_extras(board)
-      return :board => board, :creator => board.creator
+      return :board => board, :likes => get_likes(board)
     end
 
     def post_with_extras(post)

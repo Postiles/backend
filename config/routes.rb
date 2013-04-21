@@ -61,6 +61,7 @@ Backend::Application.routes.draw do
   post 'search/search_board'
   post 'search/search_post'
   post 'search/search_user'
+  post 'search/search_comment'
 
   post 'upload/upload_image'
 end

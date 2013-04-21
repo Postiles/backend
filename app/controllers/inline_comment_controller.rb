@@ -20,7 +20,6 @@ class InlineCommentController < ApplicationController
   end
 
   def get_inline_comments
-    user = auth(params) or return
     post = find_post(params[:post_id]) or return
 
     comments = post.inline_comments.map do |ic|

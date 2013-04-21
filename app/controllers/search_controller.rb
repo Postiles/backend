@@ -1,18 +1,15 @@
 class SearchController < ApplicationController
   def search_topic
-    user = auth(params) or return
     
     render_ok
   end
 
   def search_board
-    user = auth(params) or return
     
     render_ok
   end
 
   def search_post
-    user = auth(params) or return
     keyword = params[:keyword]
 
     results = Post.find(:all,
@@ -22,15 +19,30 @@ class SearchController < ApplicationController
                           "%#{keyword}%", "%#{keyword}%",
                         ])
 
-    posts = results[0...5].map do |r| # pick 5 results
+    posts = results.map do |r|
       { :post => r }
     end
 
     render_ok :posts => posts
   end
 
+  def search_comment
+    keyword = params[:keyword]
+
+    results = InlineComment.find(:all,
+                                 :conditions => [
+                                   'content LIKE ?',
+                                   "%#{keyword}%",
+                                 ])
+
+    inline_comments = results.map do |r|
+      { :inline_comment => r }
+    end
+
+    render_ok :inline_comments => inline_comments
+  end
+
   def search_user
-    user = auth(params) or return
     keyword = params[:keyword]
 
     results = User.find(:all, 
@@ -41,7 +53,7 @@ class SearchController < ApplicationController
                           "%#{keyword}%", "%#{keyword}%",
                         ])
 
-    users = results[0...5].map do |r| # pick 5 results
+    users = results.map do |r|
       { :user => r, :profile => r.profile }
     end
 
