@@ -87,6 +87,13 @@ class UserController < ApplicationController
     render_ok :user => target_user, :profile => target_user.profile
   end
 
+  def get_users
+    user_arr = params[:id_arr].map do |i|
+      user_with_extras(find_user(i))
+    end
+    render_ok user_arr
+  end
+
   def get_additional_data
     target_user = find_user(params[:target_user_id]) or return
 
@@ -121,8 +128,8 @@ class UserController < ApplicationController
     user = User.new :email => params[:email], :password => encrypt('asdfghjkl')
 
     user.profile = Profile.new :username => params[:username], 
-      :signiture => '(Enter your signature here)',
-      :personal_description => '(Something about yourself)',
+      :signiture => 'signature',
+      :personal_description => 'personal description',
       :image_url => 'default_image/profile.png',
       :image_small_url => 'default_image/profile.png'
 
@@ -138,6 +145,14 @@ class UserController < ApplicationController
 
   def get_all_grad_din_user
     render_ok GradDinUser.all
+  end
+
+  def authenticate
+    user = auth(params) or return
+    render_ok
+  end
+
+  def temp
   end
 
   private

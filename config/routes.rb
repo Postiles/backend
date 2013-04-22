@@ -45,6 +45,7 @@ Backend::Application.routes.draw do
   post 'user/login'
   post 'user/logout'
   post 'user/get_user'
+  post 'user/get_users'
   post 'user/verify_username_unique'
   post 'user/change_password'
   post 'user/request_invitation'
@@ -52,6 +53,8 @@ Backend::Application.routes.draw do
   post 'user/finish_tutorial'
   post 'user/this_route_does_nothing'
   post 'user/get_all_grad_din_user'
+  post 'user/authenticate'
+  post 'user/temp'
 
   post 'profile/get_profile'
   post 'profile/update_profile_item'
