@@ -44,6 +44,19 @@ class InlineCommentController < ApplicationController
     end
   end
 
+  def edit
+    user = auth(params) or return
+    inline_comment = find_inline_comment(params[:comment_id]) or return
+
+    if inline_comment.update_attributes :content => params[:content]
+      publish inline_comment.post.board.id, PUSH_TYPE::EDIT_COMMENT, 
+        comment_with_extras(inline_comment)
+      render_ok
+    else
+      render_error GENERAL_ERRORS::SERVER_ERROR
+    end
+  end
+
   def like
     user = auth(params) or return
     comment = find_inline_comment(params[:comment_id]) or return

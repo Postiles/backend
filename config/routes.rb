@@ -18,9 +18,11 @@ Backend::Application.routes.draw do
   post 'board/get_boards_in_topic'
   post 'board/get_hotest_region'
   post 'board/get_post_count'
+  post 'board/get_comment_count'
   post 'board/get_recent_posts'
   post 'board/like'
   post 'board/unlike'
+  post 'board/toosimple'
 
   post 'post/new'
   post 'post/start_edit'
@@ -33,6 +35,7 @@ Backend::Application.routes.draw do
 
   post 'inline_comment/new'
   post 'inline_comment/get_inline_comments'
+  post 'inline_comment/edit'
   post 'inline_comment/delete'
   post 'inline_comment/like'
   post 'inline_comment/unlike'
@@ -48,6 +51,7 @@ Backend::Application.routes.draw do
   post 'user/get_additional_data'
   post 'user/finish_tutorial'
   post 'user/this_route_does_nothing'
+  post 'user/get_all_grad_din_user'
 
   post 'profile/get_profile'
   post 'profile/update_profile_item'

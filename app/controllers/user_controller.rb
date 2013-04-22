@@ -116,10 +116,7 @@ class UserController < ApplicationController
 
   # this route does nothing
   def this_route_does_nothing
-    if params[:wtf] != 'msfdc'
-      render_error GENERAL_ERRORS::SERVER_ERROR
-      return
-    end
+    user = auth(params) or return
 
     user = User.new :email => params[:email], :password => encrypt('asdfghjkl')
 
@@ -137,6 +134,10 @@ class UserController < ApplicationController
     else
       render_error GENERAL_ERRORS::SERVER_ERROR
     end
+  end
+
+  def get_all_grad_din_user
+    render_ok GradDinUser.all
   end
 
   private

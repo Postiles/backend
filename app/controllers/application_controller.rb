@@ -193,6 +193,7 @@ class ApplicationController < ActionController::Base
       TERMINATE = 'terminate'
       FINISH = 'finish'
       INLINE_COMMNET = 'inline comment'
+      EDIT_COMMENT = 'edit comment'
       DELETE_COMMENT = 'delete comment'
       NOTIFICATION = 'notification'
     end

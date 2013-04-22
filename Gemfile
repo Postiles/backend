@@ -17,10 +17,17 @@ group :assets do
 
   gem 'therubyracer', :platforms => :ruby
 
+  gem 'coffee-rails'
+
   gem 'uglifier', '>= 1.0.3'
 end
 
 gem 'unicorn'
+
+gem'activeadmin'
+
+
+gem "meta_search", '>= 1.1.0.pre'
 
 gem 'faye'
 

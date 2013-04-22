@@ -35,6 +35,8 @@ class UploadController < ApplicationController
 
     mini_magick_img.write(path)
 
+    File.chmod(0644, path)
+
     render_ok :filename => filename
   end
 end
