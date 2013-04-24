@@ -111,8 +111,10 @@ class InlineCommentController < ApplicationController
       if not matches.empty? # matches exist
         matches.each do |m|
           at_user_id = m[0].to_i
-          notify :notification_type => 'mention', :read => false, :target_id => comment.post_id,
-            :from_user_id => from_user_id, :user_id => at_user_id
+          if at_user_id != comment.post.creator_id # user mentioned is not the creator of post
+            notify :notification_type => 'mention', :read => false, :target_id => comment.post_id,
+              :from_user_id => from_user_id, :user_id => at_user_id
+          end
         end
       end
       

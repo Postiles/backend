@@ -13,10 +13,12 @@ class SearchController < ApplicationController
     keyword = params[:keyword]
 
     results = Post.find(:all,
+                        :include => [ :board ],
                         :conditions => [
-                          'title LIKE ?
-                          OR content LIKE ?',
-                          "%#{keyword}%", "%#{keyword}%",
+                          '(title LIKE ?
+                          OR content LIKE ?) 
+                          AND boards.default_view = ? ',
+                          "%#{keyword}%", "%#{keyword}%", "free"
                         ])
 
     posts = results.map do |r|

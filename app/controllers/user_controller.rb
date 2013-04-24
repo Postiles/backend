@@ -88,9 +88,17 @@ class UserController < ApplicationController
   end
 
   def get_users
-    user_arr = params[:id_arr].map do |i|
-      user_with_extras(find_user(i))
+    id_arr = JSON.parse(params[:id_arr])
+
+    user_arr = id_arr.map do |i|
+      user = find_user(i)
+      if user
+        user_with_extras(user)
+      else
+        return
+      end
     end
+
     render_ok user_arr
   end
 

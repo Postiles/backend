@@ -39,8 +39,8 @@ class BoardController < ApplicationController
         p.pos_y >= params[:top].to_i and
         p.pos_y + p.span_y <= params[:bottom].to_i
     end.map do |p|
-      # if inactive for 600 secs, mark as not in edit
-      p.update_attributes :in_edit => false if currTime - p.updated_at > 600
+      # if inactive for 120 secs, mark as not in edit
+      p.update_attributes :in_edit => false if currTime - p.updated_at > 120
       post_with_extras(p)
     end
 
@@ -160,11 +160,14 @@ class BoardController < ApplicationController
 
     if board.save
       if params[:default_view] == 'sheet'
-        GradDinUser.all.each do |gdu|
+        GradDinUser.all.sort_by do |gdu|
+          gdu.english_name
+        end.each do |gdu|
           profile = Profile.where(:username => gdu.chinese_name).first
           user = profile.user
 
           post = Post.new
+          post.title = gdu.english_name
           post.creator = user
           post.board = board
           post.save
