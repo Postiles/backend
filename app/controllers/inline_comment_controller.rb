@@ -97,6 +97,15 @@ class InlineCommentController < ApplicationController
     end
   end
 
+  def report_comment_abuse
+    user = auth(params) or return
+    comment = find_inline_comment(params[:comment_id]) or return
+
+    AdminMailer.report_comment_abuse_email(user, comment)
+
+    render_ok
+  end
+
   private
 
     def process_comment(comment)

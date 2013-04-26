@@ -142,6 +142,15 @@ class PostController < ApplicationController
     render_ok post_with_extras(post)
   end
 
+  def report_post_abuse
+    user = auth(params) or return
+    post = find_post(params[:post_id]) or return
+
+    AdminMailer.report_post_abuse_email(user, post)
+
+    render_ok
+  end
+
   private
     # checks whether two posts have conflict positions
     def is_two_posts_clash(post1, post2)

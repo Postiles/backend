@@ -32,6 +32,7 @@ Backend::Application.routes.draw do
   post 'post/delete'
   post 'post/like'
   post 'post/unlike'
+  post 'post/report_post_abuse'
 
   post 'inline_comment/new'
   post 'inline_comment/get_inline_comments'
@@ -39,6 +40,7 @@ Backend::Application.routes.draw do
   post 'inline_comment/delete'
   post 'inline_comment/like'
   post 'inline_comment/unlike'
+  post 'inline_comment/report_comment_abuse'
 
   post 'user/new'
   post 'user/activate'

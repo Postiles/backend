@@ -19,11 +19,12 @@ Backend::Application.configure do
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
-    domain:               'postiles.com',
-    user_name:            'postileshkust',
-    password:             'postile123',
+    domain:               'gmail.com',
+    user_name:            'postiles.admin@postiles.com',
+    password:             'asdfghjkl',
     authentication:       'plain',
-    enable_starttls_auto: true  }
+    enable_starttls_auto: true
+  }
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log

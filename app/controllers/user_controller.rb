@@ -123,6 +123,7 @@ class UserController < ApplicationController
       :email => params[:email], :reason => params[:reason]
 
     if req.save
+      AdminMailer.signup_request_email(params[:email], params[:username], params[:reason])
       render_ok
     else
       render_error GENERAL_ERRORS::SERVER_ERROR
@@ -161,6 +162,9 @@ class UserController < ApplicationController
   end
 
   def temp
+    # u = User.all.first
+    # CreaterUserMailer.create_user_email('guanlunzhao@gmail.com', 'Guanlun', 'asdfghjkl')
+    render_ok
   end
 
   private
