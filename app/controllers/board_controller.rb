@@ -39,8 +39,8 @@ class BoardController < ApplicationController
         p.pos_y >= params[:top].to_i and
         p.pos_y + p.span_y <= params[:bottom].to_i
     end.map do |p|
-      # if inactive for 600 secs, mark as not in edit
-      p.update_attributes :in_edit => false if currTime - p.updated_at > 600
+      # if inactive for 120 secs, mark as not in edit
+      p.update_attributes :in_edit => false if currTime - p.updated_at > 120
       post_with_extras(p)
     end
 
@@ -109,6 +109,18 @@ class BoardController < ApplicationController
     render_ok :post_count => board.posts.length
   end
 
+  def get_comment_count
+    board = find_board(params[:board_id]) or return
+
+    comment_count = 0
+
+    board.posts.all.each do |p|
+      comment_count += p.inline_comments.length
+    end
+
+    render_ok :comment_count => comment_count
+  end
+
   def get_recent_posts
     board = find_board(params[:board_id]) or return
 
@@ -131,6 +143,40 @@ class BoardController < ApplicationController
     end
 
     render_ok posts_to_render
+  end
+
+  def toosimple
+    user = auth(params) or return
+    topic = find_topic(params[:topic_id]) or return
+
+    board = Board.new :name => params[:name],
+        :description => params[:description],
+        :topic_id => topic.id,
+        :creator_id => user.id,
+        :default_view => params[:default_view],
+        :anonymous => params[:anonymous],
+        :image_url => 'default_image/board.png',
+        :image_small_url => 'default_image/board.png'
+
+    if board.save
+      if params[:default_view] == 'sheet'
+        GradDinUser.all.sort_by do |gdu|
+          gdu.english_name
+        end.each do |gdu|
+          profile = Profile.where(:username => gdu.chinese_name).first
+          user = profile.user
+
+          post = Post.new
+          post.title = gdu.english_name
+          post.creator = user
+          post.board = board
+          post.save
+        end
+      end
+      render_ok :board => board
+    else
+      render_error GENERAL_ERRORS::SERVER_ERROR
+    end
   end
 
   private

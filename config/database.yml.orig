@@ -30,3 +30,8 @@ production:
   username: root
   password: postile123
   host: localhost
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 5cdf38efc55582ca0ad5afa399843c823e60fdea

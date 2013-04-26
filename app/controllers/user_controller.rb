@@ -87,6 +87,21 @@ class UserController < ApplicationController
     render_ok :user => target_user, :profile => target_user.profile
   end
 
+  def get_users
+    id_arr = JSON.parse(params[:id_arr])
+
+    user_arr = id_arr.map do |i|
+      user = find_user(i)
+      if user
+        user_with_extras(user)
+      else
+        return
+      end
+    end
+
+    render_ok user_arr
+  end
+
   def get_additional_data
     target_user = find_user(params[:target_user_id]) or return
 
@@ -116,16 +131,13 @@ class UserController < ApplicationController
 
   # this route does nothing
   def this_route_does_nothing
-    if params[:wtf] != 'msfdc'
-      render_error GENERAL_ERRORS::SERVER_ERROR
-      return
-    end
+    user = auth(params) or return
 
     user = User.new :email => params[:email], :password => encrypt('asdfghjkl')
 
     user.profile = Profile.new :username => params[:username], 
-      :signiture => '(Enter your signature here)',
-      :personal_description => '(Something about yourself)',
+      :signiture => 'signature',
+      :personal_description => 'personal description',
       :image_url => 'default_image/profile.png',
       :image_small_url => 'default_image/profile.png'
 
@@ -137,6 +149,18 @@ class UserController < ApplicationController
     else
       render_error GENERAL_ERRORS::SERVER_ERROR
     end
+  end
+
+  def get_all_grad_din_user
+    render_ok GradDinUser.all
+  end
+
+  def authenticate
+    user = auth(params) or return
+    render_ok
+  end
+
+  def temp
   end
 
   private
